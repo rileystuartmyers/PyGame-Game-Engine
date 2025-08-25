@@ -27,6 +27,16 @@ def redimensionImage(image, dimX, dimY):
 
     return image
 
+def checkCollision(player, objects):
+
+    for obj in objects:
+
+        if (obj.top == player.bottom) or (obj.bottom == player.top) or (obj.left == player.right) or (obj.right == player.left):
+
+            return True
+        
+    return False
+
 
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
@@ -50,7 +60,7 @@ key_dict = {
 
 }
 
-size = 450, 500
+size = 800, 600
 width, height = size
 background = RED
 caption = ""
@@ -75,6 +85,8 @@ playerRect = player.get_rect()
 speedUnit = 3
 speed = [speedUnit, speedUnit]
 
+playerRect.center = width / 2, height / 2
+
 blobPath0 = r"icons/bball.png"
 blob0 = pygame.image.load(blobPath0)
 blob0 = redimensionImage(blob0, 50, 50)
@@ -88,7 +100,7 @@ rect1 = blob1.get_rect()
 blob1speed = [3, 0]
 
 
-backgroundPath = r"icons/checkered_background.png"
+backgroundPath = r"icons/background.jpgw"
 background = pygame.image.load(backgroundPath)
 background = redimensionImage(background, width, height)
 
@@ -139,6 +151,10 @@ while running:
         blob1speed[0] = random.randrange(randSpeedMin ,randSpeedMax)
         rect1.right = 0
     
+    if (playerRect.collidelistall([rect0, rect1])):
+
+        running = False
+
     pygame.draw.rect(SCREEN, RED, playerRect, 1)
     pygame.draw.rect(SCREEN, RED, rect0, 1)
     pygame.draw.rect(SCREEN, RED, rect1, 1)
