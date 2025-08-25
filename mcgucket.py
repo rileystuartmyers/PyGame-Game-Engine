@@ -63,9 +63,10 @@ key_dict = {
 size = 800, 600
 width, height = size
 background = RED
-caption = ""
+caption = "McGucket Ballz"
 
 pygame.init()
+pygame.display.set_caption(caption)
 
 FPS = 60
 fpsClock = pygame.time.Clock()
@@ -73,7 +74,7 @@ SCREEN = pygame.display.set_mode(size)
 running = True
 
 randMin = 1
-randMax = 8
+randMax = 16
 
 randSpeedMin = 3
 randSpeedMax = 12
@@ -115,9 +116,6 @@ while running:
             running = False
 
         elif event.type == KEYDOWN and (event.key in key_dict):
-
-            #background = key_dict[event.key]
-            #caption = "Background Color: " + str(background)
 
             if event.key == K_d:
     
@@ -165,7 +163,7 @@ while running:
     SCREEN.blit(blob0, rect0)
     SCREEN.blit(blob1, rect1)
 
-    pygame.display.set_caption(caption)
+    #pygame.display.set_caption(caption)
     pygame.display.update()
     fpsClock.tick(FPS)
 
