@@ -78,7 +78,7 @@ randMax = 8
 randSpeedMin = 3
 randSpeedMax = 12
 
-playerPath = r"icons/mcguckin.png"
+playerPath = r"icons/mcgucket.png"
 player = pygame.image.load(playerPath)
 player = redimensionImage(player, 60, 60)
 playerRect = player.get_rect()
@@ -100,7 +100,7 @@ rect1 = blob1.get_rect()
 blob1speed = [3, 0]
 
 
-backgroundPath = r"icons/background.jpgw"
+backgroundPath = r"icons/background.jpg"
 background = pygame.image.load(backgroundPath)
 background = redimensionImage(background, width, height)
 
@@ -108,6 +108,7 @@ background = redimensionImage(background, width, height)
 while running:
 
     for event in pygame.event.get():
+
 
         if event.type == QUIT:
         
