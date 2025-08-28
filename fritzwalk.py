@@ -30,13 +30,27 @@ def redimensionImage(image, dimX, dimY):
 
     return image
 
+def renderBackground(SCREEN, background, pos = (0, 0)):
+
+    SCREEN.blit(background, pos)
+
+def renderAll(SCREEN, background, entities):
+
+    renderBackground(SCREEN, background)
+
+    for entity in entities:
+
+        SCREEN.blit(entity.image, entity.rect)
+
+
 class entity:
 
-    def __init__ (self, name, image, spawnCoords, width = 60, height = 60, speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
+    def __init__ (self, name, image, spawnCoords, isEnemy, width = 60, height = 60, speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
 
         self.name = name
         self.image = redimensionImage(pygame.image.load(image), width, height)
         self.speed = speed
+        self.isEnemy = isEnemy
         self.speedUnit = speedUnit
         self.randValues = randValues
 
@@ -104,15 +118,25 @@ class entity:
 
     def collisionCheck(self, entities):
 
-        if (self.rect.collidelist(entities) != -1):
+        for index in self.rect.collidelistall(entities):
 
-            return True
+            if (entities[index].isEnemy != self.isEnemy):
+
+                return True
         
         return False
     
     def collisionCount(self, entities):
 
-        return self.rect.collidelist(entities) + 1
+        count = 0
+
+        for index in self.rect.collidelistall(entities):
+
+            if (entities[index].isEnemy != self.isEnemy):
+
+                count += 1
+
+        return count
 
     def __str__ (self):
 
@@ -124,7 +148,7 @@ running = True
 size = 1000, 600
 width, height = size
 caption = "Fritz Walking 2 School"
-objectList = []
+entityList = []
 
 pygame.init()
 pygame.display.set_caption(caption)
@@ -134,10 +158,12 @@ FPS = 120
 fpsClock = pygame.time.Clock()
 
 
-player = entity("Fritz", r"icons/frisk.png",(width / 2, height / 2), 60, 60)
+player = entity("Fritz", r"icons/frisk.png",(width / 2, height / 2), False, 60, 60)
+entityList.append(player)
 
-rock = entity("Rock", r"icons/rock.jpg", (width / 3, height / 3), 40, 40)
-objectList.append(rock.rect)
+entityList.append(entity("Rock", r"icons/rock.jpg", (width / 3, height / 3), True, 40, 40))
+
+entityList.append(entity("Mcgucket", r"icons/mcgucket.png", (width / 5, height / 8), True, 100, 100))
 
 background = pygame.image.load(r"icons/pokBack.png")
 background = redimensionImage(background, width, height)
@@ -191,16 +217,15 @@ while running:
     player.move()
 
     player.boundsCheck(width, height)
+    print(player.collisionCount(entityList))
 
-    if (player.collisionCheck(objectList)):
+    if (player.collisionCheck(entityList)):
 
         running = False
     
     pygame.draw.rect(SCREEN, (0,0,0), player.rect, 1)
 
-    SCREEN.blit(background, (0, 0))
-    SCREEN.blit(rock.image, rock.rect)
-    SCREEN.blit(player.image, player.rect)
+    renderAll(SCREEN, background, entityList)
 
     pygame.display.update()
     fpsClock.tick(FPS)
