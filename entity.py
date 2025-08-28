@@ -102,7 +102,17 @@ class entity:
 
             self.rect.bottom = height - 3
 
+    def collisionCheck(self, entities):
 
+        if (self.rect.collidelist(entities) != -1):
+
+            return True
+        
+        return False
+    
+    def collisionCount(self, entities):
+
+        return self.rect.collidelist(entities) + 1
 
     def __str__ (self):
 
@@ -114,21 +124,22 @@ running = True
 size = 1000, 600
 width, height = size
 caption = "Fritz Walking 2 School"
+objectList = []
 
 pygame.init()
 pygame.display.set_caption(caption)
 SCREEN = pygame.display.set_mode(size)
 
-FPS = 60
+FPS = 120
 fpsClock = pygame.time.Clock()
 
 
-playerPath = r"icons/frisk.png"
-player = entity("Fritz", playerPath,(width / 2, height / 2), 60, 60)
+player = entity("Fritz", r"icons/frisk.png",(width / 2, height / 2), 60, 60)
 
+rock = entity("Rock", r"icons/rock.jpg", (width / 3, height / 3), 40, 40)
+objectList.append(rock.rect)
 
-backgroundPath = r"icons/pokBack.png"
-background = pygame.image.load(backgroundPath)
+background = pygame.image.load(r"icons/pokBack.png")
 background = redimensionImage(background, width, height)
 
 
@@ -139,16 +150,6 @@ while running:
         if event.type == QUIT:
         
             running = False
-
-        elif event.type == KEYUP:
-
-            if event.key == K_w or event.key == K_s:
-                
-                player.speed[1] = 0
-
-            elif event.key == K_a or event.key == K_d:
-
-                player.speed[0] = 0
 
         elif event.type == KEYDOWN:
 
@@ -168,14 +169,37 @@ while running:
 
                 player.speed[1] = player.speedUnit
 
+        elif event.type == KEYUP:
+
+            if event.key == K_w:
+            
+                player.speed[1] = 0
+
+            if event.key == K_s:
+                
+                player.speed[1] = 0
+
+            if event.key == K_a:
+                
+                player.speed[0] = 0
+            
+            if event.key == K_d:
+
+                player.speed[0] = 0
+
 
     player.move()
 
     player.boundsCheck(width, height)
 
+    if (player.collisionCheck(objectList)):
+
+        running = False
+    
     pygame.draw.rect(SCREEN, (0,0,0), player.rect, 1)
 
     SCREEN.blit(background, (0, 0))
+    SCREEN.blit(rock.image, rock.rect)
     SCREEN.blit(player.image, player.rect)
 
     pygame.display.update()
