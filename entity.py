@@ -32,15 +32,77 @@ def redimensionImage(image, dimX, dimY):
 
 class entity:
 
-    def __init__ (self, name, image, spawnX, spawnY, width = 60, height = 60, speed = [0, 0], randValues = [1, 16]):
+    def __init__ (self, name, image, spawnCoords, width = 60, height = 60, speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
 
         self.name = name
         self.image = redimensionImage(pygame.image.load(image), width, height)
         self.speed = speed
+        self.speedUnit = speedUnit
         self.randValues = randValues
 
-        self.rect = image.get_rect()
-        self.rect.center = spawnX, spawnY
+        self.rect = self.image.get_rect()
+        self.rect.center = spawnCoords
+
+    def getSpeed(self):
+
+        return self.speed
+
+    def setSpeed(self, speed):
+
+        self.speed = speed
+
+    def getLeft(self):
+
+        return self.rect.left
+    
+    def getRight(self):
+
+        return self.rect.right
+
+    def getTop(self):
+
+        return self.rect.top
+
+    def getBottom(self):
+
+        return self.rect.bottom
+    
+    def getX(self):
+
+        return self.rect.x
+    
+    def getY(self):
+
+        return self.rect.y
+
+    def move(self, speed):
+
+        self.rect = self.rect.move(speed)
+
+    def move(self):
+
+        self.rect = self.rect.move(self.speed)
+
+    def boundsCheck(self, width, height):
+
+        if (self.rect.left < 2):
+
+            self.rect.left = 3
+
+        elif (self.rect.right > width - 2):
+
+            self.rect.right = width - 3
+
+
+        if (self.rect.top < 2):
+
+            self.rect.top = 3
+
+        elif (self.rect.bottom > height - 2):
+
+            self.rect.bottom = height - 3
+
+
 
     def __str__ (self):
 
@@ -62,13 +124,7 @@ fpsClock = pygame.time.Clock()
 
 
 playerPath = r"icons/frisk.png"
-player = pygame.image.load(playerPath)
-player = redimensionImage(player, 60, 60)
-playerRect = player.get_rect()
-speedUnit = 3
-speed = [0, 0]
-
-playerRect.center = width / 2, height / 2
+player = entity("Fritz", playerPath,(width / 2, height / 2), 60, 60)
 
 
 backgroundPath = r"icons/pokBack.png"
@@ -88,54 +144,39 @@ while running:
 
             if event.key == K_w or event.key == K_s:
                 
-                speed[1] = 0
+                player.speed[1] = 0
 
             elif event.key == K_a or event.key == K_d:
 
-                speed[0] = 0
+                player.speed[0] = 0
 
         elif event.type == KEYDOWN:
 
             if event.key == K_d:
     
-                speed[0] = speedUnit
+                player.speed[0] = player.speedUnit
 
             elif event.key == K_w:
 
-                speed[1] = -speedUnit
+                player.speed[1] = -player.speedUnit
 
             elif event.key == K_a:
 
-                speed[0] = -speedUnit
+                player.speed[0] = -player.speedUnit
 
             elif event.key == K_s:
 
-                speed[1] = speedUnit
+                player.speed[1] = player.speedUnit
 
 
-    playerRect = playerRect.move(speed)
+    player.move()
 
-    if (playerRect.left < 2):
-    
-        playerRect.left = 3
+    player.boundsCheck(width, height)
 
-    elif (playerRect.right > width - 2):
-
-        playerRect.right = width - 3
-
-    if (playerRect.top < 2):
-
-        playerRect.top = 3
-    
-    elif (playerRect.bottom > height - 2):
-
-        playerRect.bottom = height - 3
-
-
-    pygame.draw.rect(SCREEN, (0,0,0), playerRect, 1)
+    pygame.draw.rect(SCREEN, (0,0,0), player.rect, 1)
 
     SCREEN.blit(background, (0, 0))
-    SCREEN.blit(player, playerRect)
+    SCREEN.blit(player.image, player.rect)
 
     pygame.display.update()
     fpsClock.tick(FPS)

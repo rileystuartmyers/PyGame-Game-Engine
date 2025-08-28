@@ -1,6 +1,7 @@
 import pygame
 import os, sys
 import random
+
 from pygame.locals import *
 
 def resizeImage(image, scaleX, scaleY):
@@ -50,13 +51,13 @@ YELLOW = (200, 200, 0)
 
 key_dict = {
 
-    K_r:RED, 
-    K_g:GREEN, 
-    K_b:BLUE,
-    K_w:YELLOW,
-    K_a:SALMON, 
-    K_s:LIME, 
-    K_d:NAVY
+    pygame.K_r:RED, 
+    pygame.K_g:GREEN, 
+    pygame.K_b:BLUE,
+    pygame.K_w:YELLOW,
+    pygame.K_a:SALMON, 
+    pygame.K_s:LIME, 
+    pygame.K_d:NAVY
 
 }
 
@@ -111,11 +112,11 @@ while running:
     for event in pygame.event.get():
 
 
-        if event.type == QUIT:
+        if event.type == pygame.QUIT:
         
             running = False
 
-        elif event.type == KEYDOWN and (event.key in key_dict):
+        elif event.type == pygame.KEYDOWN and (event.key in key_dict):
 
             if event.key == K_d:
     
