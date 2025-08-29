@@ -4,10 +4,10 @@ from imageutils import redimensionImage
 
 class entity:
 
-    def __init__ (self, name, image, spawnCoords, isEnemy, width = 60, height = 60, speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
+    def __init__ (self, name = "char", image = r"icons/blah.png", spawnCoords = (0, 0), isEnemy = False, dims = (60, 60), speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
 
         self.name = name
-        self.image = redimensionImage(pygame.image.load(image), width, height)
+        self.image = redimensionImage(pygame.image.load(image), dims)
         self.speed = speed
         self.isEnemy = isEnemy
         self.speedUnit = speedUnit

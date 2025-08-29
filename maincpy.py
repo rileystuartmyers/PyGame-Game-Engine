@@ -1,19 +1,18 @@
 import pygame
-import os, sys
 import random
+import os, sys
+
 from pygame.locals import *
+
 from imageutils import *
 from renderutils import *
+
 from entityClass import *
+from gameClass import *
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-running = True
-
-size = 1000, 600
-width, height = size
-caption = "Fritz Walking 2 School"
-entityList = []
+game = game("game", "Game oh yeah", (1000, 600), 60, r"icons/pokBack.png")
 
 pygame.init()
 pygame.display.set_caption(caption)
