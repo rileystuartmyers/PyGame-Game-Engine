@@ -12,78 +12,66 @@ from gameClass import *
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-game = game("game", "Game oh yeah", (1000, 600), 60, r"icons/pokBack.png")
+width = 1000
+height = 600
 
-pygame.init()
-pygame.display.set_caption(caption)
-SCREEN = pygame.display.set_mode(size)
+game = game("game", "Game oh yeah", (width, height), 60, r"icons/pokBack.png")
 
-FPS = 120
-fpsClock = pygame.time.Clock()
+game.createPlayer("Fritz", r"icons/frisk.png",(width / 2, height / 2), False, (60, 60))
 
+game.createEntity("Rock", r"icons/rock.jpg", (width / 3, height / 3), True, (40, 40))
 
-player = entity("Fritz", r"icons/frisk.png",(width / 2, height / 2), False, 60, 60)
-entityList.append(player)
-
-entityList.append(entity("Rock", r"icons/rock.jpg", (width / 3, height / 3), True, 40, 40))
-
-entityList.append(entity("Mcgucket", r"icons/mcgucket.png", (width / 5, height / 8), True, 100, 100))
-
-background = pygame.image.load(r"icons/pokBack.png")
-background = redimensionImage(background, width, height)
+game.createEntity("Mcgucket", r"icons/mcgucket.png", (width / 5, height / 8), False, (100, 100))
 
 
-while running:
+while game.running:
 
     for event in pygame.event.get():
 
         if event.type == QUIT:
         
-            running = False
+            game.quit()
 
         elif event.type == KEYDOWN:
 
             if event.key == K_d:
     
-                player.speed[0] = player.speedUnit
+                game.player.speed[0] = game.player.speedUnit
 
             elif event.key == K_w:
 
-                player.speed[1] = -player.speedUnit
+                game.player.speed[1] = -game.player.speedUnit
 
             elif event.key == K_a:
 
-                player.speed[0] = -player.speedUnit
+                game.player.speed[0] = -game.player.speedUnit
 
             elif event.key == K_s:
 
-                player.speed[1] = player.speedUnit
+                game.player.speed[1] = game.player.speedUnit
 
         elif event.type == KEYUP:
 
             if event.key == K_w or event.key == K_s:
             
-                player.speed[1] = 0
+                game.player.speed[1] = 0
 
             if event.key == K_a or event.key == K_d:
                 
-                player.speed[0] = 0
+                game.player.speed[0] = 0
 
 
-    player.move()
+    game.playerMove()
 
-    player.boundsCheck(width, height)
+    if (game.enemyPlayerCollision()):
 
-    if (player.collisionCheck(entityList)):
-
-        running = False
+        game.quit()
     
-    player.draw(SCREEN)
-
-    renderAll(SCREEN, background, entityList)
+    game.playerDraw()
+    game.render()
 
     pygame.display.update()
-    fpsClock.tick(FPS)
+    game.fpsTick()
 
-print(player)
-pygame.quit()
+print(game.player)
+game.quit()

@@ -4,10 +4,10 @@ from imageutils import redimensionImage
 
 class entity:
 
-    def __init__ (self, name = "char", image = r"icons/blah.png", spawnCoords = (0, 0), isEnemy = False, dims = (60, 60), speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
+    def __init__ (self, name = "char", image = r"icons/blah.png", spawnCoords = (0, 0), isEnemy = False, dims = [60, 60], speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
 
         self.name = name
-        self.image = redimensionImage(pygame.image.load(image), dims)
+        self.image = redimensionImage(pygame.image.load(image), dims[0], dims[1])
         self.speed = speed
         self.isEnemy = isEnemy
         self.speedUnit = speedUnit
@@ -56,32 +56,42 @@ class entity:
 
         self.rect = self.rect.move(self.speed)
 
-    def boundsCheck(self, width, height):
+    def boundsCheck(self, dims):
+
+        width, height = dims
 
         if (self.rect.left < 2):
 
-            self.rect.left = 3
+            self.rect.left = 2
 
         elif (self.rect.right > width - 2):
 
-            self.rect.right = width - 3
+            self.rect.right = width - 2
 
 
         if (self.rect.top < 2):
 
-            self.rect.top = 3
+            self.rect.top = 2
 
         elif (self.rect.bottom > height - 2):
 
-            self.rect.bottom = height - 3
+            self.rect.bottom = height - 2
 
-    def collisionCheck(self, entities):
+    def enemyCollisionCheck(self, entities):
 
         for index in self.rect.collidelistall(entities):
 
             if (entities[index].isEnemy != self.isEnemy):
 
                 return True
+        
+        return False
+    
+    def totalCollisionCheck(self, entities):
+
+        if (self.rect.collidelistall(entities) != -1):
+
+            return True
         
         return False
     
