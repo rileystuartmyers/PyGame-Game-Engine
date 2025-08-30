@@ -3,9 +3,6 @@ from entityClass import *
 
 class game:
 
-    # def __init__ (self, name, image, spawnCoords, isEnemy, 
-    # dims = (60, 60), speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
-
     def __init__ (self, name, caption, size, FPS, backgroundPath, entities = []):
 
         self.running = True
@@ -18,12 +15,14 @@ class game:
         self.entities = entities
         self.player = entity()
 
-        pygame.init()
-
         self.background = pygame.image.load(backgroundPath)
         self.background = redimensionImage(self.background, self.width, self.height)
         self.SCREEN = pygame.display.set_mode(size)
         self.fpsClock = pygame.time.Clock()
+
+    def init(self):
+
+        pygame.init()
 
     def createPlayer(self, name, image, spawnCoords, isEnemy = False, dims = (60, 60), speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
 
@@ -99,4 +98,3 @@ class game:
     def __str__ (self):
 
         print(f"{self.name}:   size:{self.size}  entities:{self.entities}  FPS:{self.fps}")
-        

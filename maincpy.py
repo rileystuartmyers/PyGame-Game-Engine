@@ -17,12 +17,16 @@ height = 600
 
 game = game("game", "Game oh yeah", (width, height), 60, r"icons/pokBack.png")
 
+
 game.createPlayer("Fritz", r"icons/frisk.png",(width / 2, height / 2), False, (60, 60))
 
 game.createEntity("Rock", r"icons/rock.jpg", (width / 3, height / 3), True, (40, 40))
 
 game.createEntity("Mcgucket", r"icons/mcgucket.png", (width / 5, height / 8), False, (100, 100))
 
+
+
+game.init()
 
 while game.running:
 
@@ -72,6 +76,7 @@ while game.running:
 
     pygame.display.update()
     game.fpsTick()
+
 
 print(game.player)
 game.quit()
