@@ -18,6 +18,7 @@ class game:
         self.background = pygame.image.load(backgroundPath)
         self.background = redimensionImage(self.background, self.width, self.height)
         self.SCREEN = pygame.display.set_mode(size)
+        pygame.display.set_caption(self.caption)
         self.fpsClock = pygame.time.Clock()
 
     def init(self):
@@ -37,7 +38,11 @@ class game:
         self.background = pygame.image.load(backgroundPath, self.size) # self.size might need to be replaced by
                                                                        # individual size values
 
+    def changeCaption(self, caption):
 
+        self.caption = caption
+        pygame.display.set_caption(caption)
+        
     def playerMove(self, speed = None, bounds = None):
 
         if (speed == None):
