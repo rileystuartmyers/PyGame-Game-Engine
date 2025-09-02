@@ -15,7 +15,7 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 width = 1000
 height = 600
 
-game = game("game", "Game oh yeah", (width, height), 60, r"icons/pokBack.png")
+game = game("game", "Walking Fritz", (width, height), 60, r"icons/pokBack.png")
 
 
 game.createPlayer("Fritz", r"icons/frisk.png",(width / 2, height / 2), False, (60, 60))
