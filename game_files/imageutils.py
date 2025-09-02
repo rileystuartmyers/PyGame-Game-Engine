@@ -1,10 +1,10 @@
 import pygame
 
-def resizeImage(image, scaleX, scaleY):
+def resizeImage(image, dimX, dimY):
 
-    if (scaleX > 0) and (scaleY > 0):
+    if (dimX > 0) and (dimY > 0):
 
-        image = pygame.transform.scale(image, (image.get_width() * scaleX, image.get_height() * scaleY))
+        image = pygame.transform.scale(image, (image.get_width() * dimX, image.get_height() * dimY))
 
     return image
 

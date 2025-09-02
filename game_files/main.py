@@ -1,7 +1,7 @@
 import pygame
 import random
 import os, sys
-
+import time
 from pygame.locals import *
 
 from imageutils import *
@@ -9,6 +9,7 @@ from renderutils import *
 
 from entityClass import *
 from gameClass import *
+from mapClass import *
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
@@ -16,10 +17,12 @@ width = 1000
 height = 600
 
 game = game("game", "Walking Fritz", (width, height), 60, r"icons/pokBack.png")
-
+gamemap = map("default_map", (width, height), (30, 30))
+#gamemap.setBackground("icons/background.jpg")
+gamemap.addTexture(r"icons/blah.png")
 
 game.createPlayer("Fritz", r"icons/frisk.png",(width / 2, height / 2), False, (60, 60))
-
+s
 game.createEntity("Rock", r"icons/rock.jpg", (width / 3, height / 3), True, (40, 40))
 
 game.createEntity("Mcgucket", r"icons/mcgucket.png", (width / 5, height / 8), False, (100, 100))
@@ -70,9 +73,10 @@ while game.running:
 
         game.quit()
     
-    game.playerDraw()
+    gamemap.renderMap(game.SCREEN)    
     game.render()
 
+    game.playerDraw()
     pygame.display.update()
     game.fpsTick()
 

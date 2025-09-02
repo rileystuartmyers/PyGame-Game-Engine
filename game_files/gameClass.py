@@ -84,7 +84,7 @@ class game:
 
     def render(self):
 
-        self.renderBackground()
+        #self.renderBackground()
 
         for entity in self.entities:
 
