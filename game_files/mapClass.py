@@ -4,9 +4,12 @@ import math
 import os
 from imageutils import redimensionImage
 
+#TODO: transfer 'isTouchingPortal(self, player)' to entityClass instead...
+
+
 class map:
 
-    def __init__ (self, name, size, block_size = (), textures = [], objects = (), portals = ()):
+    def __init__ (self, name, size, block_size = (10, 10), textures = [], objects = (), portals = ()):
 
         self.name = name
         self.width, self.height = block_size
@@ -39,7 +42,6 @@ class map:
 
     def renderMap(self, SCREEN):
 
-        #if (os.path.isfile(f"icons/{self.name}.png")):
         if (self.background):
 
             SCREEN.blit(self.background, (0, 0))
@@ -62,6 +64,7 @@ class map:
 
         return
     
+
     def isTouchingPortal(self, player):
 
         pass
