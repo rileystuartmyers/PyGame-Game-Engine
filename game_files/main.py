@@ -74,7 +74,7 @@ while game.running:
         game.quit()
     
     game.playerDraw()
-    gamemap.renderMap(game.SCREEN)    
+    game.renderMap()
     game.render()
 
     pygame.display.update()

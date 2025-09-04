@@ -4,9 +4,6 @@ import math
 import os
 from imageutils import redimensionImage
 
-#TODO: transfer 'isTouchingPortal(self, player)' to entityClass instead...
-
-
 class map:
 
     def __init__ (self, name, size, block_size = (10, 10), textures = [], objects = (), portals = ()):
@@ -65,11 +62,14 @@ class map:
         return
     
 
-    def isTouchingPortal(self, player):
+    def portalCollisionCheck(self, player):
 
-        pass
+        collisionList = player.portalCollisionList(self.potrals)
 
-    
+        if (len(collisionList) >= 1):
+
+            #TODO: add switch map functionality
+            pass
 
 
     def __str__ (self):

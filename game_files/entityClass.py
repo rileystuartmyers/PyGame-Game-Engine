@@ -146,6 +146,10 @@ class entity:
         
         return False
     
+    def portalCollisionList(self, portals):
+
+        return self.rect.collidelistall(portals)
+
     def collisionCount(self, entities):
 
         count = 0

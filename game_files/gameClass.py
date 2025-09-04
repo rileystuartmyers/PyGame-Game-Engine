@@ -1,11 +1,20 @@
 import pygame
 from entityClass import *
+from mapClass import *
 
 class game:
 
     def __init__ (self, name, caption, size, FPS, backgroundPath, entities = []):
 
         self.running = True
+
+        self.maps = []
+        self.maps.append(map("default_map", size, (10, 10)))
+        self.activemap = self.maps[0]
+        
+        self.activemap.setBackground(r"icons/default_map.png")
+        self.activemap.addTexture(r"icons/brick.png")
+
 
         self.name = name
         self.caption = caption
@@ -15,8 +24,6 @@ class game:
         self.entities = entities
         self.player = entity()
 
-        self.background = pygame.image.load(backgroundPath)
-        self.background = redimensionImage(self.background, self.width, self.height)
         self.SCREEN = pygame.display.set_mode(size)
         pygame.display.set_caption(self.caption)
         self.fpsClock = pygame.time.Clock()
@@ -32,11 +39,6 @@ class game:
     def createEntity(self, name = "char", image = r"icons/", spawnCoords = (0, 0), isEnemy = False, dims = (60, 60), speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
 
         self.entities.append(entity(name, image, spawnCoords, isEnemy, dims, speed, speedUnit, randValues))
-
-    def changeBackground(self, backgroundPath):
-
-        self.background = pygame.image.load(backgroundPath, self.size) # self.size might need to be replaced by
-                                                                       # individual size values
 
     def changeCaption(self, caption):
 
@@ -78,9 +80,10 @@ class game:
 
             return True
         
-    def renderBackground(self, pos = (0, 0)):
 
-        self.SCREEN.blit(self.background, pos)
+    def renderMap(self):
+
+        self.activemap.renderMap(self.SCREEN)
 
     def render(self):
 
