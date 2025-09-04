@@ -21,7 +21,7 @@ gamemap = map("default_map", (width, height), (10, 10))
 #gamemap.setBackground("icons/background.jpg")
 gamemap.addTexture(r"icons/brick.png")
 
-game.createPlayer("Fritz", r"icons/frisk.png",(width / 2, height / 2), False, (60, 60))
+game.createPlayer("Fritz", r"icons/frog_art",(width / 2, height / 2), False, (90, 90))
 
 game.createEntity("Rock", r"icons/rock.jpg", (width / 3, height / 3), True, (40, 40))
 
