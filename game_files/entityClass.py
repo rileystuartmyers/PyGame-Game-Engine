@@ -5,7 +5,13 @@ from imageutils import redimensionImage
 
 DEFAULT_IMG = r"icons/blah.png"
 
+#TODO: add player (entity) class
+
+#TODO: add portal (entity) class
+
 class entity:
+
+    #TODO: maybe add 'entity type' string var, such as "player", "object", "portal"
 
     def __init__ (self, name = "char", imagePath = "", spawnCoords = (0, 0), isEnemy = False, dims = [60, 60], speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
 
