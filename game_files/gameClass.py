@@ -92,11 +92,11 @@ class game:
 
             return True
         
-    def portalCollision(self):
+    def portalCollisionCheck(self):
 
         for portal in self.activemap.portals:
 
-            if self.player.colliderect(portal):
+            if self.player.rect.colliderect(portal.rect):
 
                 if (not portal.destination in self.maps):
     

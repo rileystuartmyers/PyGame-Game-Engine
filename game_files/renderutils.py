@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+from imageutils import redimensionImage
 
 def renderBackground(SCREEN, background, pos = (0, 0)):
 
@@ -12,6 +13,13 @@ def renderAll(SCREEN, background, entities):
     for entity in entities:
 
         SCREEN.blit(entity.image, entity.rect)
+
+def loadImage(path):
+
+    img = pygame.image.load(path)
+    
+    return img
+
 
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)

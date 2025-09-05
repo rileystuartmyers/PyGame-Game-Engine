@@ -17,7 +17,9 @@ width = 1000
 height = 600
 
 game = game("game", "Frodadurg", (width, height), 60)
+game.createPortal("port", "alternate", "", (width / 4, height / 3))
 
+game.createMap("alternate", (width, height), (10, 10), [loadImage("icons/rock.jpg")], [], [portal("port", "default_map")])
 
 game.createPlayer("Fritz", r"icons/frog_art",(width / 2, height / 2), False, "player", (90, 90))
 
@@ -74,6 +76,8 @@ while game.running:
     game.playerDraw()
     game.renderMap()
     game.render()
+
+    game.portalCollisionCheck()
 
     pygame.display.update()
     game.fpsTick()
