@@ -2,9 +2,11 @@ import pygame
 from entityClass import *
 from mapClass import *
 
+#TODO: add object and portal collision for player and other live entities
+
 class game:
 
-    def __init__ (self, name, caption, size, FPS, backgroundPath, entities = []):
+    def __init__ (self, name, caption, size, FPS):
 
         self.running = True
 
@@ -21,7 +23,6 @@ class game:
         self.size = size
         self.width, self.height = size
         self.FPS = FPS
-        self.entities = entities
         self.player = entity()
 
         self.SCREEN = pygame.display.set_mode(size)
@@ -32,13 +33,13 @@ class game:
 
         pygame.init()
 
-    def createPlayer(self, name, image, spawnCoords, isEnemy = False, dims = (60, 60), speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
+    def createPlayer(self, name, image, spawnCoords, isEnemy = False, entityType = "object",dims = (60, 60), speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
 
-        self.player = entity(name, image, spawnCoords, isEnemy, dims, speed, speedUnit, randValues)
+        self.player = entity(name, image, spawnCoords, isEnemy, entityType, dims, speed, speedUnit, randValues)
 
-    def createEntity(self, name = "char", image = r"icons/", spawnCoords = (0, 0), isEnemy = False, dims = (60, 60), speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
+    def createEntity(self, name = "char", image = r"icons/", spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = (60, 60), speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
 
-        self.entities.append(entity(name, image, spawnCoords, isEnemy, dims, speed, speedUnit, randValues))
+        self.activemap.entities.append(entity(name, image, spawnCoords, isEnemy, entityType, dims, speed, speedUnit, randValues))
 
     def changeCaption(self, caption):
 
@@ -70,16 +71,18 @@ class game:
 
     def enemyPlayerCollision(self):
 
-        if (self.player.enemyCollisionCheck(self.entities)):
+        if (self.player.enemyCollisionCheck(self.activemap.entities)):
 
             return True
 
     def totalPlayerCollision(self):
 
-        if (self.player.totalCollisionCheck(self.entities)):
+        if (self.player.totalCollisionCheck(self.activemap.entities)):
 
             return True
         
+    #def hitboxCollision(self):
+
 
     def renderMap(self):
 
@@ -89,7 +92,7 @@ class game:
 
         #self.renderBackground()
 
-        for entity in self.entities:
+        for entity in self.activemap.entities:
 
             self.SCREEN.blit(entity.image, entity.rect)
 

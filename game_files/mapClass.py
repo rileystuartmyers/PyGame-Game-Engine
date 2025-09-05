@@ -6,14 +6,13 @@ from imageutils import redimensionImage
 
 class map:
 
-    def __init__ (self, name, size, block_size = (10, 10), textures = [], objects = (), portals = ()):
+    def __init__ (self, name, size, block_size = (10, 10), textures = [], entities = []):
 
         self.name = name
         self.width, self.height = block_size
         self.res_width, self.res_height = size
         self.textures = textures
-        self.objects = objects
-        self.portals = portals
+        self.entities = entities
         self.background = None
 
         self.grid = np.zeros(block_size, dtype=int)
@@ -22,7 +21,6 @@ class map:
 
         pygame.image.save(SCREEN, f"icons/{self.name}.png")
         self.background = pygame.image.load(f"icons/{self.name}.png")
-
 
     def createCustomMap(self, SCREEN):
 

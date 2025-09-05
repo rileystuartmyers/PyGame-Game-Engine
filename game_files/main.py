@@ -16,16 +16,14 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 width = 1000
 height = 600
 
-game = game("game", "Walking Fritz", (width, height), 60, r"icons/pokBack.png")
-gamemap = map("default_map", (width, height), (10, 10))
-#gamemap.setBackground("icons/background.jpg")
-gamemap.addTexture(r"icons/brick.png")
+game = game("game", "Frodadurg", (width, height), 60)
 
-game.createPlayer("Fritz", r"icons/frog_art",(width / 2, height / 2), False, (90, 90))
 
-game.createEntity("Rock", r"icons/rock.jpg", (width / 3, height / 3), True, (40, 40))
+game.createPlayer("Fritz", r"icons/frog_art",(width / 2, height / 2), False, "player", (90, 90))
 
-game.createEntity("Mcgucket", r"icons/mcgucket.png", (width / 5, height / 8), False, (100, 100))
+game.createEntity("Rock", r"icons/rock.jpg", (width / 3, height / 3), True, "object", (40, 40))
+
+game.createEntity("Mcgucket", r"icons/mcgucket.png", (width / 5, height / 8), False, "object", (100, 100))
 
 
 

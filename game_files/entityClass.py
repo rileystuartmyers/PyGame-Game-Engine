@@ -13,7 +13,7 @@ class entity:
 
     #TODO: maybe add 'entity type' string var, such as "player", "object", "portal"
 
-    def __init__ (self, name = "char", imagePath = "", spawnCoords = (0, 0), isEnemy = False, dims = [60, 60], speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
+    def __init__ (self, name = "char", imagePath = "", spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = [60, 60], speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
 
         self.images = []
         self.facing = 0   # (front, back, left, right) => (0, 1, 2, 3)
@@ -37,6 +37,7 @@ class entity:
             self.image = redimensionImage(pygame.image.load(DEFAULT_IMG), dims[0], dims[1])
 
         self.name = name
+        self.entityType = entityType
         self.speed = speed
         self.isEnemy = isEnemy
         self.speedUnit = speedUnit
@@ -77,6 +78,14 @@ class entity:
 
         return self.rect.y
 
+    def getType(self):
+
+        return self.entityType
+    
+    def setType(self, entityType):
+
+        self.entityType = entityType
+        
     def getDirection(self):
 
         if (self.speed[1] < 0):
