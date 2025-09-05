@@ -21,11 +21,7 @@ class map:
         if (len(self.textures) == 0):
 
             self.addTexture(DEFAULT_TEXTURE)    
-
-        for texture in textures:
-
-            texture = redimensionImage(texture, round(self.res_width / self.width), round(self.res_height / self.height))
-
+            
         self.grid = np.zeros(block_size, dtype=int)
 
     def saveMap(self, SCREEN):

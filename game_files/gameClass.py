@@ -9,17 +9,11 @@ class game:
     def __init__ (self, name, caption, size, FPS):
 
         self.running = True
-
-        #self.maps = []
-        #self.maps.append(map("default_map", size, (10, 10)))
-        #self.activemap = self.maps[0]
         
         self.maps = {"default_map" : map("default_map", size, (10, 10))}
         self.activemap = self.maps["default_map"]
-
         self.activemap.setBackground(r"icons/default_map.png")
         self.activemap.addTexture(r"icons/brick.png")
-
 
         self.name = name
         self.caption = caption
@@ -31,6 +25,7 @@ class game:
         self.SCREEN = pygame.display.set_mode(size)
         pygame.display.set_caption(self.caption)
         self.fpsClock = pygame.time.Clock()
+
 
     def init(self):
 
@@ -116,8 +111,6 @@ class game:
         self.activemap.renderMap(self.SCREEN)
 
     def render(self):
-
-        #self.renderBackground()
 
         for entity in self.activemap.entities:
 

@@ -1,6 +1,5 @@
 import pygame
 from pygame.locals import *
-from imageutils import redimensionImage
 
 def renderBackground(SCREEN, background, pos = (0, 0)):
 
@@ -17,7 +16,7 @@ def renderAll(SCREEN, background, entities):
 def loadImage(path):
 
     img = pygame.image.load(path)
-    
+
     return img
 
 

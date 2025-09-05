@@ -17,9 +17,16 @@ width = 1000
 height = 600
 
 game = game("game", "Frodadurg", (width, height), 60)
-game.createPortal("port", "alternate", "", (width / 4, height / 3))
+game.createMap("beach", (width, height), (10, 10), [], [], [portal("port", "default_map", "icons/default_map.png", (width * 2/3, height * 1/3)), portal("port", "2fort", "icons/2fort.png", (width * 1/3, height * 1/3))])
+game.createMap("2fort", (width, height), (10, 10), [], [], [portal("port", "default_map", "icons/default_map.png", (width * 2/3, height * 8/9)), portal("port", "beach", "icons/pokBack.png", (width * 1/3, height * 8/9))])
 
-game.createMap("alternate", (width, height), (10, 10), [loadImage("icons/rock.jpg")], [], [portal("port", "default_map")])
+game.maps["beach"].setBackground(r"icons/pokBack.png")
+game.maps["2fort"].setBackground(r"icons/2fort.png")
+
+game.createPortal("beach_portal", "beach", "icons/pokBack.png", (width * 1/3, height * 3/5))
+game.createPortal("2fort_portal", "2fort", "icons/2fort.png", (width * 2/3, height / 3/5))
+
+
 
 game.createPlayer("Fritz", r"icons/frog_art",(width / 2, height / 2), False, "player", (90, 90))
 
