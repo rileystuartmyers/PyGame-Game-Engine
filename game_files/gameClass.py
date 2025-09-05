@@ -10,10 +10,13 @@ class game:
 
         self.running = True
 
-        self.maps = []
-        self.maps.append(map("default_map", size, (10, 10)))
-        self.activemap = self.maps[0]
+        #self.maps = []
+        #self.maps.append(map("default_map", size, (10, 10)))
+        #self.activemap = self.maps[0]
         
+        self.maps = {"default_map" : map("default_map", size, (10, 10))}
+        self.activemap = self.maps["default_map"]
+
         self.activemap.setBackground(r"icons/default_map.png")
         self.activemap.addTexture(r"icons/brick.png")
 
@@ -33,13 +36,21 @@ class game:
 
         pygame.init()
 
-    def createPlayer(self, name, image, spawnCoords, isEnemy = False, entityType = "object",dims = (60, 60), speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
+    def createPlayer(self, name, image, spawnCoords, isEnemy = False, entityType = "player",dims = (60, 60), speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
 
         self.player = entity(name, image, spawnCoords, isEnemy, entityType, dims, speed, speedUnit, randValues)
 
-    def createEntity(self, name = "char", image = r"icons/", spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = (60, 60), speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
+    def createEntity(self, name = "char", image = DEFAULT_IMG, spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = (60, 60), speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
 
         self.activemap.entities.append(entity(name, image, spawnCoords, isEnemy, entityType, dims, speed, speedUnit, randValues))
+
+    def createPortal(self, name, destination, imagePath, spawnCoords, isEnemy = False, entityType = "portal", dims = [60, 60], speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
+
+        self.activemap.portals.append(portal(name, destination, imagePath, spawnCoords, isEnemy, entityType, dims, speed, speedUnit, randValues))
+
+    def createMap(self, name, size, block_size = (10, 10), textures = [], entities = [], portals = []):
+
+        self.maps[name] = map(name, size, block_size, textures, entities, portals)
 
     def changeCaption(self, caption):
 
@@ -81,6 +92,22 @@ class game:
 
             return True
         
+    def portalCollision(self):
+
+        for portal in self.activemap.portals:
+
+            if self.player.colliderect(portal):
+
+                if (not portal.destination in self.maps):
+    
+                    self.activemap = self.maps["default_map"]
+
+                else:
+
+                    self.activemap = self.maps[portal.destination]
+
+                return
+            
     #def hitboxCollision(self):
 
 
@@ -95,6 +122,10 @@ class game:
         for entity in self.activemap.entities:
 
             self.SCREEN.blit(entity.image, entity.rect)
+
+        for portal in self.activemap.portals:
+
+            self.SCREEN.blit(portal.image, portal.rect)
 
         self.SCREEN.blit(self.player.image, self.player.rect)
 

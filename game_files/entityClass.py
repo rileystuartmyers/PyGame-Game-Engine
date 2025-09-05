@@ -4,6 +4,7 @@ from pygame.locals import *
 from imageutils import redimensionImage
 
 DEFAULT_IMG = r"icons/blah.png"
+DEFAULT_PORTAL = r"icons/portal.png"
 
 #TODO: add player (entity) class
 
@@ -161,9 +162,9 @@ class entity:
         
         return False
     
-    def portalCollisionList(self, portals):
+    #def portalCollisionList(self, portals):
 
-        return self.rect.collidelistall(portals)
+    #   return self.rect.collidelistall(portals)
 
     def collisionCount(self, entities):
 
@@ -184,3 +185,26 @@ class entity:
     def __str__ (self):
 
         return f"{self.name} {self.rect.x} {self.rect.y} {self.speed}"
+
+class portal (entity):
+
+    def __init__ (self, name = "port", destination = "", imagePath = "", spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = [60, 60], speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
+
+        if (imagePath == ""):
+
+            self.image = redimensionImage(pygame.image.load(DEFAULT_IMG), dims[0], dims[1])
+
+        else:
+
+            self.image = redimensionImage(pygame.image.load(imagePath), dims[0], dims[1])
+
+        self.name = name
+        self.destination = destination
+        self.entityType = entityType
+        self.speed = speed
+        self.isEnemy = isEnemy
+        self.speedUnit = speedUnit
+        self.randValues = randValues
+
+        self.rect = self.image.get_rect()
+        self.rect.center = spawnCoords
