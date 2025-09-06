@@ -74,7 +74,7 @@ class game:
             SCREEN = self.SCREEN
 
         self.player.draw(SCREEN, color, width)
-
+    
     def enemyPlayerCollision(self):
 
         if (self.player.enemyCollisionCheck(self.activemap.entities)):
@@ -86,7 +86,8 @@ class game:
         if (self.player.totalCollisionCheck(self.activemap.entities)):
 
             return True
-        
+    
+    
     def portalCollisionCheck(self):
 
         for portal in self.activemap.portals:
@@ -105,7 +106,36 @@ class game:
             
     #def hitboxCollision(self):
 
+    def collisionCheck(self, objects):
 
+        if (len(objects) == 0):
+
+            objects = self.activemap.entities
+        
+    
+        if (self.player.rect.collidelist(objects) == -1):
+
+            return
+        
+        if (self.player.facing == 0):
+
+            self.player.rect.y += 2
+
+        if (self.player.facing == 1):
+        
+            self.player.rect.y -= 2
+
+        if (self.player.facing == 2):
+        
+            self.player.rect.x += 2
+        
+        else:
+
+            self.player.rect.x -= 2
+
+        return
+    
+            
     def renderMap(self):
 
         self.activemap.renderMap(self.SCREEN)
