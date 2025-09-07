@@ -27,7 +27,7 @@ game.createPortal("beach_portal", "beach", "icons/pokBack.png", (width * 1/3, he
 game.createPortal("2fort_portal", "2fort", "icons/2fort.png", (width * 2/3, height / 3/5))
 
 
-game.createPlayer("Fritz", r"icons/frog_art",(width / 2, height / 2), False, "player", (90, 90))
+game.createPlayer("Fritz", r"icons/frog_art",(width / 2, height / 2), False, "player", (30, 30))
 
 game.createEntity("Rock", r"icons/rock.jpg", (width / 3, height / 3), True, "object", (40, 40))
 
@@ -75,14 +75,15 @@ while game.running:
 
     game.playerMove()
 
-    if (game.enemyPlayerCollision()):
+    #if (game.enemyPlayerCollision()):
 
-        game.quit()
+    #    game.quit()
     
     game.playerDraw()
     game.renderMap()
     game.render()
 
+    game.collisionCheck()
     game.portalCollisionCheck()
 
     pygame.display.update()
