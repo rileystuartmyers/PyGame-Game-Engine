@@ -31,17 +31,17 @@ class game:
 
         pygame.init()
 
-    def createPlayer(self, name, image, spawnCoords, isEnemy = False, entityType = "player",dims = (60, 60), speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
+    def createPlayer(self, name, image, spawnCoords, isEnemy = False, entityType = "player",dims = (60, 60), speedUnit = 3, randValues = [1, 16]):
 
-        self.player = entity(name, image, spawnCoords, isEnemy, entityType, dims, speed, speedUnit, randValues)
+        self.player = entity(name, image, spawnCoords, isEnemy, entityType, dims, speedUnit, randValues)
 
-    def createEntity(self, name = "char", image = DEFAULT_IMG, spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = (60, 60), speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
+    def createEntity(self, name = "char", image = DEFAULT_IMG, spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = (60, 60), speedUnit = 3, randValues = [1, 16]):
 
-        self.activemap.entities.append(entity(name, image, spawnCoords, isEnemy, entityType, dims, speed, speedUnit, randValues))
+        self.activemap.entities.append(entity(name, image, spawnCoords, isEnemy, entityType, dims, speedUnit, randValues))
 
-    def createPortal(self, name, destination, imagePath, spawnCoords, isEnemy = False, entityType = "portal", dims = [60, 60], speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
+    def createPortal(self, name, destination, imagePath, spawnCoords, isEnemy = False, entityType = "portal", dims = [60, 60], speedUnit = 3, randValues = [1, 16]):
 
-        self.activemap.portals.append(portal(name, destination, imagePath, spawnCoords, isEnemy, entityType, dims, speed, speedUnit, randValues))
+        self.activemap.portals.append(portal(name, destination, imagePath, spawnCoords, isEnemy, entityType, dims, speedUnit, randValues))
 
     def createMap(self, name, size, block_size = (10, 10), textures = [], entities = [], portals = []):
 
@@ -53,10 +53,6 @@ class game:
         pygame.display.set_caption(caption)
         
     def playerMove(self, speed = None, bounds = None):
-
-        if (speed == None):
-
-            speed = self.player.speed
 
         if (bounds == None):
 
@@ -104,39 +100,48 @@ class game:
 
                 return
             
-    #def hitboxCollision(self):
-
     def collisionCheck(self):
 
         objects = self.activemap.entities
-    
-        if (self.player.rect.collidelist(objects) == -1):
 
-            return
+        print(objects)
+        for obj in objects:
 
+            colliding = self.player.rect.colliderect(obj.rect)
+            print(colliding)
+            print(obj.rect.bottom)
+            if (colliding):
 
+                ObjectTopPlayerBottomDifference = abs(self.player.rect.bottom - obj.rect.top)
+                ObjectBottomPlayerTopDifference = abs(self.player.rect.top - obj.rect.bottom)
+                ObjectLeftPlayerRightDifference = abs(self.player.rect.right - obj.rect.left)
+                ObjectRightPlayerLeftDifference = abs(self.player.rect.left - obj.rect.right)
 
-        if (self.player.facing == 0):
+                objectPlayerFaceDifferences = [ObjectTopPlayerBottomDifference,
+                                               ObjectBottomPlayerTopDifference,
+                                               ObjectLeftPlayerRightDifference,
+                                               ObjectRightPlayerLeftDifference]
+                
+                objectPlayerFaceDifferencesMin = min(objectPlayerFaceDifferences)
 
-            self.player.rect.y -= 2
-            self.player.speed[1] = 0
+                if (objectPlayerFaceDifferencesMin == ObjectTopPlayerBottomDifference):
 
-        elif (self.player.facing == 1):
-        
-            self.player.rect.y += 2
-            self.player.speed[1] = 0
+                    self.player.rect.bottom = obj.rect.top
 
-        elif (self.player.facing == 2):
-        
-            self.player.rect.x += 2
-            self.player.speed[0] = 0
-        
-        else:
+                elif (objectPlayerFaceDifferencesMin == ObjectBottomPlayerTopDifference):
 
-            self.player.rect.x -= 2
-            self.player.speed[0] = 0
+                    self.player.rect.top = obj.rect.bottom
 
-        return
+                elif (objectPlayerFaceDifferencesMin == ObjectLeftPlayerRightDifference):
+
+                    self.player.rect.right = obj.rect.left
+
+                else:
+
+                    self.player.rect.left = obj.rect.right
+
+                return
+            
     
             
     def renderMap(self):

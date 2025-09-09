@@ -14,10 +14,9 @@ class entity:
 
     #TODO: maybe add 'entity type' string var, such as "player", "object", "portal"
 
-    def __init__ (self, name = "char", imagePath = "", spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = [60, 60], speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
+    def __init__ (self, name = "char", imagePath = "", spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = [60, 60], speedUnit = 3, randValues = [1, 16]):
 
         self.images = []
-        self.facing = 0   # (front, back, left, right) => (0, 1, 2, 3)
 
         if (os.path.isdir(imagePath)):
 
@@ -26,7 +25,7 @@ class entity:
             self.images.append(redimensionImage(pygame.image.load(os.path.join(imagePath, "left.png")), dims[0], dims[1]))
             self.images.append(redimensionImage(pygame.image.load(os.path.join(imagePath, "right.png")), dims[0], dims[1]))
 
-            self.image = self.images[self.facing]
+            self.image = self.images[0]
 
         elif (os.path.isfile(imagePath)):
 
@@ -39,21 +38,13 @@ class entity:
 
         self.name = name
         self.entityType = entityType
-        self.speed = speed
+        self.facing = 0   # (down, up, left, right) => (0, 1, 2, 3)
         self.isEnemy = isEnemy
         self.speedUnit = speedUnit
         self.randValues = randValues
 
         self.rect = self.image.get_rect()
         self.rect.center = spawnCoords
-
-    def getSpeed(self):
-
-        return self.speed
-
-    def setSpeed(self, speed):
-
-        self.speed = speed
 
     def getLeft(self):
 
@@ -89,39 +80,18 @@ class entity:
         
     def getDirection(self):
 
-        if (self.speed[1] < 0):
+        return self.facing
 
-            self.facing = 1
+    def setDirection(self, direction):
 
-        elif (self.speed[1] > 0):
-
-            self.facing = 0
-
-        if (self.speed[0] < 0):
-
-            self.facing = 2
-
-        elif (self.speed[0] > 0):
-
-            self.facing = 3
+        self.facing = direction
+        self.changeDirectionImage()
 
     def changeDirectionImage(self):
 
         if (not len(self.images) <= 1):
 
             self.image = self.images[self.facing]
-        
-    def movec(self, speed):
-
-        self.rect = self.rect.move(speed)
-        self.getDirection()
-        self.changeDirectionImage()
-
-    def move(self):
-
-        self.rect = self.rect.move(self.speed)
-        self.getDirection()
-        self.changeDirectionImage()
 
     def boundsCheck(self, dims):
 
@@ -180,11 +150,11 @@ class entity:
 
     def __str__ (self):
 
-        return f"{self.name} {self.rect.x} {self.rect.y} {self.speed}"
+        return f"{self.name} {self.rect.x} {self.rect.y} {self.speedUnit}"
 
 class portal (entity):
 
-    def __init__ (self, name = "port", destination = "", imagePath = "", spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = [60, 60], speed = [0, 0], speedUnit = 3, randValues = [1, 16]):
+    def __init__ (self, name = "port", destination = "", imagePath = "", spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = [60, 60], speedUnit = 3, randValues = [1, 16]):
 
         if (imagePath == ""):
 
@@ -197,7 +167,6 @@ class portal (entity):
         self.name = name
         self.destination = destination
         self.entityType = entityType
-        self.speed = speed
         self.isEnemy = isEnemy
         self.speedUnit = speedUnit
         self.randValues = randValues
