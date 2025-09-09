@@ -104,12 +104,10 @@ class game:
 
         objects = self.activemap.entities
 
-        print(objects)
         for obj in objects:
 
             colliding = self.player.rect.colliderect(obj.rect)
-            print(colliding)
-            print(obj.rect.bottom)
+
             if (colliding):
 
                 ObjectTopPlayerBottomDifference = abs(self.player.rect.bottom - obj.rect.top)

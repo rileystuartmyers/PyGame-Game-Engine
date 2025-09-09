@@ -38,27 +38,30 @@ game.init()
 
 while game.running:
 
+    speed = game.player.speedUnit
     keys = pygame.key.get_pressed()
 
+    if (keys[K_LSHIFT]):
+        speed *= 2
+
+
+
     if keys[K_s]:
-    
-        game.player.rect.y += game.player.speedUnit
+        game.player.rect.y += speed
         game.player.setDirection(0)
 
     elif keys[K_w]:
-
-        game.player.rect.y -= game.player.speedUnit
+        game.player.rect.y -= speed
         game.player.setDirection(1)
 
 
-    if keys[K_a]:
 
-        game.player.rect.x -= game.player.speedUnit
+    if keys[K_a]:
+        game.player.rect.x -= speed
         game.player.setDirection(2)
 
     elif keys[K_d]:
-
-        game.player.rect.x += game.player.speedUnit
+        game.player.rect.x += speed
         game.player.setDirection(3)
 
     for event in pygame.event.get():
@@ -70,10 +73,6 @@ while game.running:
         
 
     game.player.boundsCheck((game.width, game.height))
-
-    #if (game.enemyPlayerCollision()):
-
-    #    game.quit()
     
     game.playerDraw()
     game.renderMap()
