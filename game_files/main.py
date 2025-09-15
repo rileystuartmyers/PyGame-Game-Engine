@@ -46,35 +46,42 @@ while game.running:
     speed = game.player.speedUnit
     keys = pygame.key.get_pressed()
 
-    if (keys[K_LSHIFT]):
- 
-        speed *= 2
-
-    if keys[K_s]:
- 
-        game.player.rect.y += speed
-        game.player.setDirection(0)
-
-    elif keys[K_w]:
- 
-        game.player.rect.y -= speed
-        game.player.setDirection(1)
-
-    if keys[K_a]:
- 
-        game.player.rect.x -= speed
-        game.player.setDirection(2)
-
-    elif keys[K_d]:
- 
-        game.player.rect.x += speed
-        game.player.setDirection(3)
-
     for event in pygame.event.get():
 
         if event.type == QUIT:
         
             game.quit()
+
+    if (keys[K_h]):
+
+        game.initiateScreenFade()
+        
+    if (game.player.canMove):
+            
+        if (keys[K_LSHIFT]):
+    
+            speed *= 2
+
+        if keys[K_s]:
+    
+            game.player.rect.y += speed
+            game.player.setDirection(0)
+
+        elif keys[K_w]:
+    
+            game.player.rect.y -= speed
+            game.player.setDirection(1)
+
+        if keys[K_a]:
+    
+            game.player.rect.x -= speed
+            game.player.setDirection(2)
+
+        elif keys[K_d]:
+    
+            game.player.rect.x += speed
+            game.player.setDirection(3)
+
 
         
 
@@ -82,11 +89,10 @@ while game.running:
     
     game.playerDraw()
     game.renderMap()
+    game.portalCollisionCheck()
     game.render()
 
-    game.collisionCheck()
-    game.portalCollisionCheck()
-    #game.SCREEN.fill((count, count, count))
+    game.collisionCorrection()
 
     pygame.display.update()
     game.fpsTick()

@@ -15,14 +15,21 @@ class game:
         self.activemap.setBackground(r"icons/default_map.png")
         self.activemap.addTexture(r"icons/brick.png")
 
+        self.transitionmap = None
+
         self.name = name
         self.caption = caption
         self.size = size
         self.width, self.height = size
         self.FPS = FPS
         self.player = entity()
-        self.isFadingOut = False
-        self.isFadingIn = False
+
+        self.fadeScreen = pygame.Surface(size)
+        self.fadeScreen.fill((0, 0, 0))
+
+        self.isFading = False
+        self.fadeIncrement = 3
+        self.fadeAlpha = 0
 
         self.SCREEN = pygame.display.set_mode(size)
         pygame.display.set_caption(self.caption)
@@ -85,17 +92,14 @@ class game:
 
             return True
     
-    def screenFadeMapTransition(self, increment = 5):
 
-        if (self.isFading == False):
 
-            return
-        
-        self.SCREEN.fill((self.count, self.count, self.count))
-        
-        if (self.count > 255):
+    def initiateScreenFade(self):
 
-            pass
+        self.isFadingOut = True
+        self.player.canMove = False
+
+        return
 
 
     def portalCollisionCheck(self):
@@ -104,19 +108,19 @@ class game:
 
             if self.player.rect.colliderect(portal.rect):
 
+                self.isFading = True
+                self.player.canMove = False
+
                 if (not portal.destination in self.maps):
     
-                    self.activemap = self.maps["default_map"]
+                    self.transitionmap = self.maps["default_map"]
 
                 else:
 
-                    self.activemap = self.maps[portal.destination]
+                    self.transitionmap = self.maps[portal.destination]
 
-                self.isFading = True
-
-                return
             
-    def collisionCheck(self):
+    def collisionCorrection(self):
 
         objects = self.activemap.entities
 
@@ -173,6 +177,39 @@ class game:
             self.SCREEN.blit(portal.image, portal.rect)
 
         self.SCREEN.blit(self.player.image, self.player.rect)
+
+        if (self.isFading):
+
+            self.renderFadeScreen()
+
+
+    def renderFadeScreen(self):
+
+        MAX_ALPHA = 254
+
+        if (self.fadeAlpha < MAX_ALPHA):
+
+            self.fadeScreen.set_alpha(self.fadeAlpha)
+
+        elif (self.fadeAlpha < (MAX_ALPHA * 2)):
+
+            self.fadeScreen.set_alpha(MAX_ALPHA - (self.fadeAlpha % MAX_ALPHA))
+
+        else:
+
+            self.isFading = False
+            self.player.canMove = True
+            self.fadeAlpha = 0
+            
+            return
+        
+        self.fadeAlpha += self.fadeIncrement
+        self.SCREEN.blit(self.fadeScreen, (0, 0))
+
+        if ( (self.fadeAlpha // self.fadeIncrement) == (MAX_ALPHA // self.fadeIncrement) ) and (self.transitionmap != None):
+
+            self.activemap = self.transitionmap
+
 
     def fpsTick(self):
 

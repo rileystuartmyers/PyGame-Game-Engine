@@ -42,6 +42,7 @@ class entity:
         self.isEnemy = isEnemy
         self.speedUnit = speedUnit
         self.randValues = randValues
+        self.canMove = True
 
         self.rect = self.image.get_rect()
         self.rect.center = spawnCoords
