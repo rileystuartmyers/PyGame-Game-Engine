@@ -21,6 +21,8 @@ class game:
         self.width, self.height = size
         self.FPS = FPS
         self.player = entity()
+        self.isFadingOut = False
+        self.isFadingIn = False
 
         self.SCREEN = pygame.display.set_mode(size)
         pygame.display.set_caption(self.caption)
@@ -83,7 +85,19 @@ class game:
 
             return True
     
-    
+    def screenFadeMapTransition(self, increment = 5):
+
+        if (self.isFading == False):
+
+            return
+        
+        self.SCREEN.fill((self.count, self.count, self.count))
+        
+        if (self.count > 255):
+
+            pass
+
+
     def portalCollisionCheck(self):
 
         for portal in self.activemap.portals:
@@ -97,6 +111,8 @@ class game:
                 else:
 
                     self.activemap = self.maps[portal.destination]
+
+                self.isFading = True
 
                 return
             
