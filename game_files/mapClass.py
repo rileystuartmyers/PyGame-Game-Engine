@@ -64,7 +64,25 @@ class map:
 
         self.textures.append(img)
 
+    def getEntityByName(self, name):
+
+        for entity in self.entities:
+
+            if (entity.name == name):
+
+                return entity
+        
+        #return self.entities[0]
     
+    def getPortalByname(self, name):
+
+        for portal in self.portals:
+
+            if (portal.name == name):
+
+                return portal
+    
+
     def __str__ (self):
 
         pass

@@ -4,39 +4,57 @@ import os, sys
 import time
 from pygame.locals import *
 
-from imageutils import *
+from renderutils import windowSize
+
+width, height = windowSize
+os.environ['SDL_VIDEO_CENTERED'] = '1'
+
 from renderutils import *
+from imageutils import *
 
 from entityClass import *
 from gameClass import *
 from mapClass import *
+from dialogueClass import *
 
-os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 gameName = "game"
 gameCaption = "Frodadurg"
-width = 1000
-height = 600
-windowSize = width, height
+
+#width = 1920
+#height = 1080
+#windowSize = width, height
 FPS = 60
 
 game = game(gameName, gameCaption, windowSize, FPS)
 
 game.createMap("beach", windowSize, (10, 10), [], [], [portal("port", "default_map", "icons/default_map.png", (width * 2/3, height * 1/3)), portal("port", "2fort", "icons/2fort.png", (width * 1/3, height * 1/3))])
-game.createMap("2fort", windowSize, (10, 10), [], [], [portal("port", "default_map", "icons/default_map.png", (width * 2/3, height * 8/9)), portal("port", "beach", "icons/pokBack.png", (width * 1/3, height * 8/9))])
-
 game.maps["beach"].setBackground(r"icons/pokBack.png")
+
+game.createMap("2fort", windowSize, (10, 10), [], [], [portal("port", "default_map", "icons/default_map.png", (width * 2/3, height * 8/9)), portal("port", "beach", "icons/pokBack.png", (width * 1/3, height * 8/9))])
 game.maps["2fort"].setBackground(r"icons/2fort.png")
 
 game.createPortal("beach_portal", "beach", "icons/pokBack.png", (width * 1/3, height * 3/5))
 game.createPortal("2fort_portal", "2fort", "icons/2fort.png", (width * 2/3, height / 3/5))
 
 
-game.createEntity("Fritz", r"icons/frog_art",(width / 2, height / 2), False, "player", (110, 110))
-
 game.createEntity("Rock", r"icons/rock.jpg", (width / 3, height / 3), True, "object", (40, 40))
 
-game.createPlayer("Mananda", r"icons/mananda_art", (width / 5, height / 8), False, "object", (140, 140))
+p0 = entity("Froh", r"icons/frog_art",(width / 4, height / 4), False, "player", (110, 110))
+p1 = entity("Fritz2", r"icons/frog_art",(width / 2, height / 2), False, "player", (110, 110))
+
+p1.dialogue.append("Hello!")
+p1.dialogue.append("Watcha up to???")
+p1.dialogue.append("Ribbet master ribbet backlalala")
+
+
+game.addPlayer(p0)
+game.addEntity(p1)
+
+dialogue = dialogueBox(iconPath = r"icons/frog_art/front.png")
+dialogue.header = "Fritz"
+dialogue.body = "Ribidi toilet..."
+dialogue.subtext = "Press 'e' to continue"
 
 
 game.init()
@@ -52,10 +70,6 @@ while game.running:
         
             game.quit()
 
-    if (keys[K_h]):
-
-        game.initiateScreenFade()
-        
     if (game.player.canMove):
             
         if (keys[K_LSHIFT]):
@@ -80,19 +94,25 @@ while game.running:
         elif keys[K_d]:
     
             game.player.rect.x += speed
-            game.player.setDirection(3)
-
+            game.player.setDirection(3)        
 
         
-
     game.player.boundsCheck((game.width, game.height))
     
     game.playerDraw()
     game.renderMap()
-    game.portalCollisionCheck()
+
+    game.playerCollisionProcesses(keys)
+
     game.render()
 
+    dialogue.render(game.SCREEN)
+
     game.collisionCorrection()
+
+    if (game.player.health == 0):
+
+        game.quit()
 
     pygame.display.update()
     game.fpsTick()

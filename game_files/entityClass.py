@@ -6,13 +6,7 @@ from imageutils import redimensionImage
 DEFAULT_IMG = r"icons/blah.png"
 DEFAULT_PORTAL = r"icons/portal.png"
 
-#TODO: add player (entity) class
-
-#TODO: add portal (entity) class
-
 class entity:
-
-    #TODO: maybe add 'entity type' string var, such as "player", "object", "portal"
 
     def __init__ (self, name = "char", imagePath = "", spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = [60, 60], speedUnit = 3, randValues = [1, 16]):
 
@@ -33,11 +27,11 @@ class entity:
 
         else:
 
-            #raise Exception("Provided invalid path for entity image(s)!")        
             self.image = redimensionImage(pygame.image.load(DEFAULT_IMG), dims[0], dims[1])
 
         self.name = name
         self.entityType = entityType
+        self.health = 3
         self.facing = 0   # (down, up, left, right) => (0, 1, 2, 3)
         self.isEnemy = isEnemy
         self.speedUnit = speedUnit
@@ -47,6 +41,10 @@ class entity:
         self.rect = self.image.get_rect()
         self.rect.center = spawnCoords
 
+        self.dialogue = []
+        self.dialogueCount = 0
+        self.isTalking = False
+    
     def getLeft(self):
 
         return self.rect.left

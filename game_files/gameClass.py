@@ -2,7 +2,6 @@ import pygame
 from entityClass import *
 from mapClass import *
 
-#TODO: add object and portal collision for player and other live entities
 
 class game:
 
@@ -28,7 +27,7 @@ class game:
         self.fadeScreen.fill((0, 0, 0))
 
         self.isFading = False
-        self.fadeIncrement = 3
+        self.fadeIncrement = 5
         self.fadeAlpha = 0
 
         self.SCREEN = pygame.display.set_mode(size)
@@ -44,17 +43,33 @@ class game:
 
         self.player = entity(name, image, spawnCoords, isEnemy, entityType, dims, speedUnit, randValues)
 
+    def addPlayer(self, player):
+        
+        self.player = player
+
     def createEntity(self, name = "char", image = DEFAULT_IMG, spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = (60, 60), speedUnit = 3, randValues = [1, 16]):
 
         self.activemap.entities.append(entity(name, image, spawnCoords, isEnemy, entityType, dims, speedUnit, randValues))
+
+    def addEntity(self, entity):
+
+        self.activemap.entities.append(entity)
 
     def createPortal(self, name, destination, imagePath, spawnCoords, isEnemy = False, entityType = "portal", dims = [60, 60], speedUnit = 3, randValues = [1, 16]):
 
         self.activemap.portals.append(portal(name, destination, imagePath, spawnCoords, isEnemy, entityType, dims, speedUnit, randValues))
 
+    def addPortal(self, portal):
+
+        self.activemap.portals.append(portal)
+
     def createMap(self, name, size, block_size = (10, 10), textures = [], entities = [], portals = []):
 
         self.maps[name] = map(name, size, block_size, textures, entities, portals)
+
+    def addMap(self, map):
+
+        self.maps[map.name] = map
 
     def changeCaption(self, caption):
 
@@ -92,6 +107,29 @@ class game:
 
             return True
     
+    def playerCollisionProcesses(self, keys):
+
+        for entity in self.activemap.entities:
+
+            if (self.player.rect.colliderect(entity.rect)):
+                
+                if (entity.isEnemy == True):
+
+                    self.player.health -= 1
+
+                elif (keys[K_e]) and (len(entity.dialogue) - entity.dialogueCount > 0) and (entity.isTalking == False):
+
+                    entity.isTalking = True
+                    #self.player.canMove = False
+                    print(entity.dialogue[entity.dialogueCount], entity.dialogueCount)
+                    entity.dialogueCount += 1
+
+                elif (not keys[K_e]):
+
+                    entity.isTalking = False
+                    
+        self.portalCollisionCheck()
+
 
 
     def initiateScreenFade(self):
@@ -144,19 +182,19 @@ class game:
 
                 if (objectPlayerFaceDifferencesMin == ObjectTopPlayerBottomDifference):
 
-                    self.player.rect.bottom = obj.rect.top
+                    self.player.rect.bottom = obj.rect.top + 3
 
                 elif (objectPlayerFaceDifferencesMin == ObjectBottomPlayerTopDifference):
 
-                    self.player.rect.top = obj.rect.bottom
+                    self.player.rect.top = obj.rect.bottom - 3
 
                 elif (objectPlayerFaceDifferencesMin == ObjectLeftPlayerRightDifference):
 
-                    self.player.rect.right = obj.rect.left
+                    self.player.rect.right = obj.rect.left + 3
 
                 else:
 
-                    self.player.rect.left = obj.rect.right
+                    self.player.rect.left = obj.rect.right - 3
 
                 return
             

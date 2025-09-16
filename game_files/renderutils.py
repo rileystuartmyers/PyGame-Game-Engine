@@ -1,6 +1,8 @@
 import pygame
 from pygame.locals import *
 
+windowSize = (1366, 768)
+
 def renderBackground(SCREEN, background, pos = (0, 0)):
 
     SCREEN.blit(background, pos)
