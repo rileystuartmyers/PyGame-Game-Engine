@@ -143,6 +143,12 @@ class entity:
 
         return count
 
+    def addDialogue(self, dialogue):
+
+        self.dialogue.append(dialogue)
+
+        return
+
     def draw(self, SCREEN, color = (0, 0, 0), width = 0):
 
         pygame.draw.rect(SCREEN, color, self.rect, width)

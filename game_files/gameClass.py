@@ -1,7 +1,9 @@
 import pygame
 from entityClass import *
 from mapClass import *
+from dialogueClass import dialogueBox
 
+DEFAULT_DIALOGUE = dialogueBox()
 
 class game:
 
@@ -30,10 +32,12 @@ class game:
         self.fadeIncrement = 5
         self.fadeAlpha = 0
 
+        self.currentDialogue = DEFAULT_DIALOGUE
+
         self.SCREEN = pygame.display.set_mode(size)
-        pygame.display.set_caption(self.caption)
         self.fpsClock = pygame.time.Clock()
 
+        pygame.display.set_caption(self.caption)
 
     def init(self):
 
@@ -107,7 +111,12 @@ class game:
 
             return True
     
+
+            
     def playerCollisionProcesses(self, keys):
+
+        offset = 3
+        self.portalCollisionCheck()
 
         for entity in self.activemap.entities:
 
@@ -116,28 +125,41 @@ class game:
                 if (entity.isEnemy == True):
 
                     self.player.health -= 1
+                
+                if (len(entity.dialogue) - entity.dialogueCount <= 0):
 
-                elif (keys[K_e]) and (len(entity.dialogue) - entity.dialogueCount > 0) and (entity.isTalking == False):
+                    return
+                
+                remainingDialogueLineCount = len(entity.dialogue[entity.dialogueCount].body) - entity.dialogue[entity.dialogueCount].bodyCount  - 1
+                
+                if (keys[K_e]) and (remainingDialogueLineCount > 0) and (entity.isTalking == False):
 
                     entity.isTalking = True
-                    #self.player.canMove = False
-                    print(entity.dialogue[entity.dialogueCount], entity.dialogueCount)
-                    entity.dialogueCount += 1
+                    self.player.canMove = False
+                    self.currentDialogue = entity.dialogue[entity.dialogueCount]
+                    entity.dialogue[entity.dialogueCount].bodyCount += 1
+
+                elif (keys[K_e]) and (remainingDialogueLineCount <= 0) and (entity.isTalking == False):
+
+                    entity.isTalking = False
+                    self.player.canMove = True
+                    self.currentDialogue = DEFAULT_DIALOGUE
+                    offset = -1
+
+                    entity.dialogue[entity.dialogueCount].bodyCount = 0
+                    
+                    if (entity.dialogue[entity.dialogueCount].isRepeatable == False):
+
+                        entity.dialogueCount += 1
+                        
 
                 elif (not keys[K_e]):
 
                     entity.isTalking = False
-                    
-        self.portalCollisionCheck()
 
 
-
-    def initiateScreenFade(self):
-
-        self.isFadingOut = True
-        self.player.canMove = False
-
-        return
+        self.collisionCorrection(offset)
+        self.currentDialogue.render(self.SCREEN)
 
 
     def portalCollisionCheck(self):
@@ -157,8 +179,8 @@ class game:
 
                     self.transitionmap = self.maps[portal.destination]
 
-            
-    def collisionCorrection(self):
+
+    def collisionCorrection(self, offset = 3):
 
         objects = self.activemap.entities
 
@@ -182,24 +204,32 @@ class game:
 
                 if (objectPlayerFaceDifferencesMin == ObjectTopPlayerBottomDifference):
 
-                    self.player.rect.bottom = obj.rect.top + 3
+                    self.player.rect.bottom = obj.rect.top + offset
 
                 elif (objectPlayerFaceDifferencesMin == ObjectBottomPlayerTopDifference):
 
-                    self.player.rect.top = obj.rect.bottom - 3
+                    self.player.rect.top = obj.rect.bottom - offset
 
                 elif (objectPlayerFaceDifferencesMin == ObjectLeftPlayerRightDifference):
 
-                    self.player.rect.right = obj.rect.left + 3
+                    self.player.rect.right = obj.rect.left + offset
 
                 else:
 
-                    self.player.rect.left = obj.rect.right - 3
+                    self.player.rect.left = obj.rect.right - offset
 
                 return
             
+
+
+    def initiateScreenFade(self):
+
+        self.isFadingOut = True
+        self.player.canMove = False
+
+        return
     
-            
+
     def renderMap(self):
 
         self.activemap.renderMap(self.SCREEN)
@@ -247,6 +277,7 @@ class game:
         if ( (self.fadeAlpha // self.fadeIncrement) == (MAX_ALPHA // self.fadeIncrement) ) and (self.transitionmap != None):
 
             self.activemap = self.transitionmap
+            self.transitionmap = None
 
 
     def fpsTick(self):

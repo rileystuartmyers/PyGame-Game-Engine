@@ -38,31 +38,39 @@ game.createPortal("beach_portal", "beach", "icons/pokBack.png", (width * 1/3, he
 game.createPortal("2fort_portal", "2fort", "icons/2fort.png", (width * 2/3, height / 3/5))
 
 
-game.createEntity("Rock", r"icons/rock.jpg", (width / 3, height / 3), True, "object", (40, 40))
+game.createEntity("Rock", r"icons/rock.jpg", (width * 3/5, height / 3), True, "object", (40, 40))
 
 p0 = entity("Froh", r"icons/frog_art",(width / 4, height / 4), False, "player", (110, 110))
 p1 = entity("Fritz2", r"icons/frog_art",(width / 2, height / 2), False, "player", (110, 110))
-
-p1.dialogue.append("Hello!")
-p1.dialogue.append("Watcha up to???")
-p1.dialogue.append("Ribbet master ribbet backlalala")
 
 
 game.addPlayer(p0)
 game.addEntity(p1)
 
-dialogue = dialogueBox(iconPath = r"icons/frog_art/front.png")
+dialogue = dialogueBox(iconPath = r"icons/frog_art/icon.png")
 dialogue.header = "Fritz"
-dialogue.body = "Ribidi toilet..."
+dialogue.body = ["Hello, I'm Frog.",
+                "Ribidi Toilet...",
+                "Fuck yourself."]
 dialogue.subtext = "Press 'e' to continue"
 
+dialogue2 = dialogueBox(iconPath = r"icons/frog_art/icon.png")
+dialogue2.header = "Fritz"
+dialogue2.body = ["Go away...",
+                  "BLAH BLAH BLAH",
+                  "Bye now!"]
+dialogue2.subtext = "Press 'e' to continue"
+dialogue2.isRepeatable = True
+
+p1.addDialogue(dialogue)
+p1.addDialogue(dialogue2)
 
 game.init()
 
 while game.running:
 
     speed = game.player.speedUnit
-    keys = pygame.key.get_pressed()
+    keys_pressed = pygame.key.get_pressed()
 
     for event in pygame.event.get():
 
@@ -72,26 +80,26 @@ while game.running:
 
     if (game.player.canMove):
             
-        if (keys[K_LSHIFT]):
+        if (keys_pressed[K_LSHIFT]):
     
             speed *= 2
 
-        if keys[K_s]:
+        if keys_pressed[K_s]:
     
             game.player.rect.y += speed
             game.player.setDirection(0)
 
-        elif keys[K_w]:
+        elif keys_pressed[K_w]:
     
             game.player.rect.y -= speed
             game.player.setDirection(1)
 
-        if keys[K_a]:
+        if keys_pressed[K_a]:
     
             game.player.rect.x -= speed
             game.player.setDirection(2)
 
-        elif keys[K_d]:
+        elif keys_pressed[K_d]:
     
             game.player.rect.x += speed
             game.player.setDirection(3)        
@@ -102,11 +110,8 @@ while game.running:
     game.playerDraw()
     game.renderMap()
 
-    game.playerCollisionProcesses(keys)
-
     game.render()
-
-    dialogue.render(game.SCREEN)
+    game.playerCollisionProcesses(keys_pressed)
 
     game.collisionCorrection()
 
