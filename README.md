@@ -1,3 +1,6 @@
+#Pygame Game/Engine
+<img src = "icons/readmeDisplayImage.png">
+
 # Current Features
   * 🧙‍♂️ Fully modular and easy-to-use entity and map creation
   * ⌚ Frequent Development Updates
