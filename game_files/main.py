@@ -19,11 +19,8 @@ from dialogueClass import *
 
 
 gameName = "game"
-gameCaption = "Frodadurg"
+gameCaption = "Frogburg"
 
-#width = 1920
-#height = 1080
-#windowSize = width, height
 FPS = 60
 
 game = game(gameName, gameCaption, windowSize, FPS)
@@ -31,7 +28,7 @@ game = game(gameName, gameCaption, windowSize, FPS)
 game.createMap("beach", windowSize, (10, 10), [], [], [portal("port", "default_map", "icons/default_map.png", (width * 2/3, height * 1/3)), portal("port", "2fort", "icons/2fort.png", (width * 1/3, height * 1/3))])
 game.maps["beach"].setBackground(r"icons/pokBack.png")
 
-game.createMap("2fort", windowSize, (10, 10), [], [], [portal("port", "default_map", "icons/default_map.png", (width * 2/3, height * 8/9)), portal("port", "beach", "icons/pokBack.png", (width * 1/3, height * 8/9))])
+game.createMap("2fort", windowSize, (10, 10), [], [], [portal("port", "default_map", "icons/default_map.png", (width * 2/3, height * 8/9)), portal("port", "beach", DEFAULT_PORTAL, (width * 1/3, height * 8/9))])
 game.maps["2fort"].setBackground(r"icons/2fort.png")
 
 game.createPortal("beach_portal", "beach", "icons/pokBack.png", (width * 1/3, height * 3/5))
@@ -40,21 +37,21 @@ game.createPortal("2fort_portal", "2fort", "icons/2fort.png", (width * 2/3, heig
 
 game.createEntity("Rock", r"icons/rock.jpg", (width * 3/5, height / 3), True, "object", (40, 40))
 
-p0 = entity("Froh", r"icons/frog_art",(width / 4, height / 4), False, "player", (110, 110))
-p1 = entity("Fritz2", r"icons/frog_art",(width / 2, height / 2), False, "player", (110, 110))
+p0 = entity("Frog", r"icons/frog_art",(width / 4, height / 4), False, "player", (110, 110))
+p1 = entity("Frog2", r"icons/frog_art",(width / 2, height / 2), False, "player", (110, 110))
 
 
 game.addPlayer(p0)
 game.addEntity(p1)
 
-d1 = dialogueBox(iconPath = r"icons/frog_art/icon.png", header = "Fritz", body = ["Hello, I'm Frog.",
-                "Ribidi Toilet...",
-                "Fuck yourself."])
+d1 = dialogueBox(iconPath = r"icons/frog_art/icon.png", header = "Frog", body = ["Hello, I'm Frog."
+                                                                                 "Blah",
+                                                                                 "Blahb",
+                "Ribidi Toilet..."])
 
-d2 = dialogueBox(iconPath = r"icons/frog_art/icon.png", header = "Fritz", body = ["Go away...",
-                  "BLAH BLAH BLAH",
+d2 = dialogueBox(iconPath = r"icons/frog_art/icon.png", header = "Frog", body = ["BLAH BLAH BLAH",
                   "Bye now!"], isRepeatable = True)
-
+''
 p1.addDialogue(d1)
 p1.addDialogue(d2)
 

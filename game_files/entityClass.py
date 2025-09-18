@@ -3,7 +3,7 @@ import os
 from pygame.locals import *
 from imageutils import redimensionImage
 
-DEFAULT_IMG = r"icons/blah.png"
+DEFAULT_IMG = r"icons/sball.png"
 DEFAULT_PORTAL = r"icons/portal.png"
 
 class entity:

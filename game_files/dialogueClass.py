@@ -16,7 +16,7 @@ windowX, windowY = windowSize
 #DEFAULT_BOXSIZE = (windowX * 3/5, windowY * 1/4)
 DEFAULT_BOXSIZE = (windowX * 1/2, windowY * 1/4)
 DEFAULT_POS = (windowX * 1/4, windowY * 3/5)
-DEFAULT_ICONPATH = r"icons/frisk.png"
+DEFAULT_ICONPATH = r"icons/sball.png"
 
 
 class dialogueBox:

@@ -71,9 +71,7 @@ class map:
             if (entity.name == name):
 
                 return entity
-        
-        #return self.entities[0]
-    
+            
     def getPortalByname(self, name):
 
         for portal in self.portals:
