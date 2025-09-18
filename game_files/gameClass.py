@@ -3,18 +3,21 @@ from entityClass import *
 from mapClass import *
 from dialogueClass import dialogueBox
 
+DEFAULT_BACKGROUND = r"icons/default_map.png"
+DEFAULT_TEXTURE = r"icons/brick.png"
+
 DEFAULT_DIALOGUE = dialogueBox()
 
 class game:
 
-    def __init__ (self, name, caption, size, FPS):
+    def __init__ (self, name, caption, size, FPS, background = DEFAULT_BACKGROUND, texture = DEFAULT_TEXTURE):
 
         self.running = True
         
         self.maps = {"default_map" : map("default_map", size, (10, 10))}
         self.activemap = self.maps["default_map"]
-        self.activemap.setBackground(r"icons/default_map.png")
-        self.activemap.addTexture(r"icons/brick.png")
+        self.activemap.setBackground(background)
+        self.activemap.addTexture(texture)
 
         self.transitionmap = None
 
@@ -151,7 +154,7 @@ class game:
                     if (entity.dialogue[entity.dialogueCount].isRepeatable == False):
 
                         entity.dialogueCount += 1
-                        
+
 
                 elif (not keys[K_e]):
 

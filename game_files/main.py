@@ -23,19 +23,13 @@ gameCaption = "Frogburg"
 
 FPS = 60
 
-game = game(gameName, gameCaption, windowSize, FPS)
+game = game(gameName, gameCaption, windowSize, FPS, background = r"icons/tempBack.png")
 
-game.createMap("beach", windowSize, (10, 10), [], [], [portal("port", "default_map", "icons/default_map.png", (width * 2/3, height * 1/3)), portal("port", "2fort", "icons/2fort.png", (width * 1/3, height * 1/3))])
-game.maps["beach"].setBackground(r"icons/pokBack.png")
-
-game.createMap("2fort", windowSize, (10, 10), [], [], [portal("port", "default_map", "icons/default_map.png", (width * 2/3, height * 8/9)), portal("port", "beach", DEFAULT_PORTAL, (width * 1/3, height * 8/9))])
+game.createMap("2fort", windowSize, (10, 10), [], [], [portal("port", "defawult_map", "icons/default_map.png", (width * 2/3, height * 8/9)), portal("port", "beach", DEFAULT_PORTAL, (width * 1/3, height * 8/9))])
 game.maps["2fort"].setBackground(r"icons/2fort.png")
 
-game.createPortal("beach_portal", "beach", "icons/pokBack.png", (width * 1/3, height * 3/5))
 game.createPortal("2fort_portal", "2fort", "icons/2fort.png", (width * 2/3, height / 3/5))
 
-
-game.createEntity("Rock", r"icons/rock.jpg", (width * 3/5, height / 3), True, "object", (40, 40))
 
 p0 = entity("Frog", r"icons/frog_art",(width / 4, height / 4), False, "player", (110, 110))
 p1 = entity("Frog2", r"icons/frog_art",(width / 2, height / 2), False, "player", (110, 110))
@@ -43,6 +37,12 @@ p1 = entity("Frog2", r"icons/frog_art",(width / 2, height / 2), False, "player",
 
 game.addPlayer(p0)
 game.addEntity(p1)
+
+mult1, mult2, mult3 = 1/3, 2/3, 1/2
+
+game.addEntity(entity("Frog2", r"icons/frog_art",(width * 1/3, height * 1/2), False, "player", (110, 110)))
+
+
 
 d1 = dialogueBox(iconPath = r"icons/frog_art/icon.png", header = "Frog", body = ["Hello, I'm Frog."
                                                                                  "Blah",
