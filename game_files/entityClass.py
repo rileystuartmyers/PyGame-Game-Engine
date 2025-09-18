@@ -143,11 +143,26 @@ class entity:
 
         return count
 
-    def addDialogue(self, dialogue):
+    """
+    def addDialogue(self, header, body, subtext, isRepeatable = False):
 
+        if (header == None or header == ""):
+
+            header = self.name
+
+        if (subtext == None or subtext == ""):
+
+            subtext = "Press 'e' to continue"
+
+        dialogue = dialogueBox(header = header, body = body, subtext = subtext, isRepeatable = isRepeatable)
         self.dialogue.append(dialogue)
 
         return
+    """
+
+    def addDialogue(self, dialogue):
+
+        self.dialogue.append(dialogue)
 
     def draw(self, SCREEN, color = (0, 0, 0), width = 0):
 

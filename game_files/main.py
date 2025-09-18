@@ -47,23 +47,16 @@ p1 = entity("Fritz2", r"icons/frog_art",(width / 2, height / 2), False, "player"
 game.addPlayer(p0)
 game.addEntity(p1)
 
-dialogue = dialogueBox(iconPath = r"icons/frog_art/icon.png")
-dialogue.header = "Fritz"
-dialogue.body = ["Hello, I'm Frog.",
+d1 = dialogueBox(iconPath = r"icons/frog_art/icon.png", header = "Fritz", body = ["Hello, I'm Frog.",
                 "Ribidi Toilet...",
-                "Fuck yourself."]
-dialogue.subtext = "Press 'e' to continue"
+                "Fuck yourself."])
 
-dialogue2 = dialogueBox(iconPath = r"icons/frog_art/icon.png")
-dialogue2.header = "Fritz"
-dialogue2.body = ["Go away...",
+d2 = dialogueBox(iconPath = r"icons/frog_art/icon.png", header = "Fritz", body = ["Go away...",
                   "BLAH BLAH BLAH",
-                  "Bye now!"]
-dialogue2.subtext = "Press 'e' to continue"
-dialogue2.isRepeatable = True
+                  "Bye now!"], isRepeatable = True)
 
-p1.addDialogue(dialogue)
-p1.addDialogue(dialogue2)
+p1.addDialogue(d1)
+p1.addDialogue(d2)
 
 game.init()
 
