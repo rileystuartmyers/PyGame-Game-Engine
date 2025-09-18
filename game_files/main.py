@@ -22,6 +22,7 @@ gameName = "game"
 gameCaption = "Frogburg"
 
 FPS = 60
+##
 
 game = game(gameName, gameCaption, windowSize, FPS)
 
