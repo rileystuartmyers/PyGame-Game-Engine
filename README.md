@@ -1,4 +1,4 @@
-#Pygame Game/Engine
+# Pygame Game/Engine
 <img src = "icons/readmeDisplayImage.png">
 
 # Current Features
