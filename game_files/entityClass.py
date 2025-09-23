@@ -162,7 +162,10 @@ class entity:
 
     def addDialogue(self, dialogue):
 
-        dialogue.body.insert(0, "")
+        if (len(self.dialogue) == 0):
+
+            dialogue.body.insert(0, "")
+            
         self.dialogue.append(dialogue)
 
     def draw(self, SCREEN, color = (0, 0, 0), width = 0):

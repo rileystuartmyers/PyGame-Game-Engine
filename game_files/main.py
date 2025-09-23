@@ -33,10 +33,12 @@ game.createPortal("2fort_portal", "2fort", "icons/2fort.png", (width * 2/3, heig
 
 p0 = entity("Frog", r"icons/frog_art",(width / 4, height / 4), False, "player", (110, 110))
 p1 = entity("Frog2", r"icons/frog_art",(width / 2, height / 2), False, "player", (110, 110))
+p2 = entity("Frog2", r"icons/frog_art",(width / 2, height / 2), False, "player", (110, 110))
 
 
 game.addPlayer(p0)
 game.addEntity(p1)
+game.addEntityWithMap(entity = p2, map = "2fort")
 
 mult1, mult2, mult3 = 1/3, 2/3, 1/2
 
@@ -57,10 +59,12 @@ d2 = dialogueBox(
     header = "Frog", 
     body = ["BLAH BLAH BLAH",
             "Bye now!"],
-    isRepeatable = True)
+    #isRepeatable = True)
+)
 
 p1.addDialogue(d1)
 p1.addDialogue(d2)
+p2.addDialogue(d2)
 
 game.init()
 

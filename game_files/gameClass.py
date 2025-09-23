@@ -58,9 +58,19 @@ class game:
 
         self.activemap.entities.append(entity(name, image, spawnCoords, isEnemy, entityType, dims, speedUnit, randValues))
 
+    
+    def createEntityWithMap(self, name = "char", map = "default_map", image = DEFAULT_IMG, spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = (60, 60), speedUnit = 3, randValues = [1, 16]):
+
+        self.maps[map].entities.append(entity(name, image, spawnCoords, isEnemy, entityType, dims, speedUnit, randValues))
+
+    
     def addEntity(self, entity):
 
         self.activemap.entities.append(entity)
+
+    def addEntityWithMap(self, entity, map = "default_map"):
+
+        self.maps[map].entities.append(entity)
 
     def createPortal(self, name, destination, imagePath, spawnCoords, isEnemy = False, entityType = "portal", dims = [60, 60], speedUnit = 3, randValues = [1, 16]):
 
