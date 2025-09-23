@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 
-windowSize = (1366, 768)
+windowSize = (1920, 1080)
 
 def renderBackground(SCREEN, background, pos = (0, 0)):
 

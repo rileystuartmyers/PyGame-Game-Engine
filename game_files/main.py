@@ -17,25 +17,57 @@ from gameClass import *
 from mapClass import *
 from dialogueClass import *
 
+game = game(name = "game", 
+            caption = "Frogburg", 
+            size = windowSize, 
+            FPS = 60, 
+            background = r"icons/tempBack.png",
+            iconPath = r"icons/frog_art/icon.png")
 
-gameName = "game"
-gameCaption = "Frogburg"
-
-FPS = 60
-
-game = game(gameName, gameCaption, windowSize, FPS, background = r"icons/tempBack.png")
 game.init()
-game.createMap("2fort", windowSize, (10, 10), [], [], [portal("port", "default_map", "icons/default_map.png", (width * 2/3, height * 8/9)), portal("port", "beach", DEFAULT_PORTAL, (width * 1/3, height * 8/9))], background = r"icons/sball.png")
 
+game.createMap(name = "2fort", 
+               size = windowSize, 
+               block_size = (10, 10), 
+               background = r"icons/sball.png",
+               portals = [portal("port",
+                                 "default_map", 
+                                 "icons/default_map.png", 
+                                 (width * 2/3, height * 8/9)), 
+                          portal("port", 
+                                 "beach", 
+                                 DEFAULT_PORTAL, 
+                                 (width * 1/3, height * 8/9))])
+                                 
 game.maps["2fort"].setBackground(r"icons/2fort.png")
 
-game.createPortal("2fort_portal", "2fort", "icons/2fort.png", (width * 2/3, height / 3/5))
+game.createPortal("2fort_portal", 
+                  "2fort", 
+                  "icons/2fort.png", 
+                  (width * 2/3, height / 3/5))
 
 
 
-p0 = entity("Frog", r"icons/frog_art",(width / 4, height / 4), False, "player", (110, 110))
-p1 = entity("Frog2", r"icons/frog_art",(width / 2, height / 2), False, "player", (110, 110))
-p2 = entity("Frog2", r"icons/frog_art",(width / 2, height / 2), False, "player", (110, 110))
+p0 = entity("Frog", 
+            r"icons/frog_art",
+            (width / 4, height / 4), 
+            False, 
+            "player", 
+            (110, 110))
+
+p1 = entity("Frog2", 
+            r"icons/frog_art",
+            (width / 2, height / 2), 
+            False, 
+            "player", 
+            (110, 110))
+
+p2 = entity("Frog2", 
+            r"icons/frog_art",
+            (width / 2, height / 2), 
+            False, 
+            "player", 
+            (110, 110))
 
 
 game.addPlayer(p0)
@@ -44,7 +76,12 @@ game.addEntityWithMap(entity = p2, map = "2fort")
 
 mult1, mult2, mult3 = 1/3, 2/3, 1/2
 
-game.addEntity(entity("Frog2", r"icons/frog_art",(width * 1/3, height * 1/2), False, "player", (110, 110)))
+game.addEntity(entity("Frog2", 
+                      r"icons/frog_art",
+                      (width * 1/3, height * 1/2), 
+                      False, 
+                      "player", 
+                      (110, 110)))
 
 
 

@@ -10,7 +10,7 @@ DEFAULT_DIALOGUE = dialogueBox()
 
 class game:
 
-    def __init__ (self, name, caption, size, FPS, background = DEFAULT_BACKGROUND, texture = DEFAULT_TEXTURE):
+    def __init__ (self, name, caption, size, FPS, background = DEFAULT_BACKGROUND, texture = DEFAULT_TEXTURE, iconPath = None):
 
         self.running = True
                 
@@ -35,11 +35,15 @@ class game:
 
         self.fpsClock = pygame.time.Clock()
         self.currentDialogue = DEFAULT_DIALOGUE
-        self.SCREEN = pygame.display.set_mode(size)
+        self.SCREEN = pygame.display.set_mode(size, pygame.FULLSCREEN)
 
         self.activemap.setBackground(background)
         self.activemap.addTexture(texture)
 
+        if (iconPath):
+
+            icon = pygame.image.load(iconPath)
+            pygame.display.set_icon(icon)
 
         pygame.display.set_caption(self.caption)
 
