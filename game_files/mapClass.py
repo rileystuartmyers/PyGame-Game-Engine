@@ -27,8 +27,14 @@ class map:
     def saveMap(self, SCREEN):
 
         pygame.image.save(SCREEN, f"icons/{self.name}.png")
-        self.background = pygame.image.load(f"icons/{self.name}.png")
+        #self.background = pygame.image.load(f"icons/{self.name}.png")
+        
+        img = pygame.image.load(f"icons/{self.name}.png")
+        print(img.get_width())
+        print(img.get_height())
 
+        self.background = pygame.image.load(f"icons/{self.name}.png")
+        
     def createCustomMap(self, SCREEN):
         
         for y in range(self.width):
@@ -54,7 +60,7 @@ class map:
 
     def setBackground(self, path):
 
-        self.background = pygame.image.load(path)
+        self.background = pygame.image.load(path).convert_alpha()
         self.background = redimensionImage(self.background, self.res_width, self.res_height)
 
     def addTexture(self, path):

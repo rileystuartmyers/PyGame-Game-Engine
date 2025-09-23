@@ -24,11 +24,13 @@ gameCaption = "Frogburg"
 FPS = 60
 
 game = game(gameName, gameCaption, windowSize, FPS, background = r"icons/tempBack.png")
+game.init()
+game.createMap("2fort", windowSize, (10, 10), [], [], [portal("port", "default_map", "icons/default_map.png", (width * 2/3, height * 8/9)), portal("port", "beach", DEFAULT_PORTAL, (width * 1/3, height * 8/9))], background = r"icons/sball.png")
 
-game.createMap("2fort", windowSize, (10, 10), [], [], [portal("port", "defawult_map", "icons/default_map.png", (width * 2/3, height * 8/9)), portal("port", "beach", DEFAULT_PORTAL, (width * 1/3, height * 8/9))])
 game.maps["2fort"].setBackground(r"icons/2fort.png")
 
 game.createPortal("2fort_portal", "2fort", "icons/2fort.png", (width * 2/3, height / 3/5))
+
 
 
 p0 = entity("Frog", r"icons/frog_art",(width / 4, height / 4), False, "player", (110, 110))
@@ -66,7 +68,6 @@ p1.addDialogue(d1)
 p1.addDialogue(d2)
 p2.addDialogue(d2)
 
-game.init()
 
 while game.running:
 

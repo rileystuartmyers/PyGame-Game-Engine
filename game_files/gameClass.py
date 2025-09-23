@@ -13,11 +13,9 @@ class game:
     def __init__ (self, name, caption, size, FPS, background = DEFAULT_BACKGROUND, texture = DEFAULT_TEXTURE):
 
         self.running = True
-        
+                
         self.maps = {"default_map" : map("default_map", size, (10, 10))}
         self.activemap = self.maps["default_map"]
-        self.activemap.setBackground(background)
-        self.activemap.addTexture(texture)
 
         self.transitionmap = None
 
@@ -35,10 +33,13 @@ class game:
         self.fadeIncrement = 5
         self.fadeAlpha = 0
 
-        self.currentDialogue = DEFAULT_DIALOGUE
-
-        self.SCREEN = pygame.display.set_mode(size)
         self.fpsClock = pygame.time.Clock()
+        self.currentDialogue = DEFAULT_DIALOGUE
+        self.SCREEN = pygame.display.set_mode(size)
+
+        self.activemap.setBackground(background)
+        self.activemap.addTexture(texture)
+
 
         pygame.display.set_caption(self.caption)
 
@@ -58,11 +59,9 @@ class game:
 
         self.activemap.entities.append(entity(name, image, spawnCoords, isEnemy, entityType, dims, speedUnit, randValues))
 
-    
     def createEntityWithMap(self, name = "char", map = "default_map", image = DEFAULT_IMG, spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = (60, 60), speedUnit = 3, randValues = [1, 16]):
 
         self.maps[map].entities.append(entity(name, image, spawnCoords, isEnemy, entityType, dims, speedUnit, randValues))
-
     
     def addEntity(self, entity):
 
@@ -80,9 +79,13 @@ class game:
 
         self.activemap.portals.append(portal)
 
-    def createMap(self, name, size, block_size = (10, 10), textures = [], entities = [], portals = []):
+    def createMap(self, name, size, block_size = (10, 10), textures = [], entities = [], portals = [], background = None):
 
         self.maps[name] = map(name, size, block_size, textures, entities, portals)
+
+        if (background):
+
+            self.maps[name].setBackground(background)
 
     def addMap(self, map):
 

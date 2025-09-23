@@ -18,7 +18,6 @@ DEFAULT_BOXSIZE = (windowX * 1/2, windowY * 1/4)
 DEFAULT_POS = (windowX * 1/4, windowY * 3/5)
 DEFAULT_ICONPATH = r"icons/sball.png"
 
-
 class dialogueBox:
 
     def __init__ (self, boxSize = DEFAULT_BOXSIZE, pos = DEFAULT_POS, color = BLACK, border_color = WHITE, text_color = WHITE, iconPath = DEFAULT_ICONPATH, header = "", body = "", subtext = "", isRepeatable = False):
