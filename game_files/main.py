@@ -44,14 +44,21 @@ game.addEntity(entity("Frog2", r"icons/frog_art",(width * 1/3, height * 1/2), Fa
 
 
 
-d1 = dialogueBox(iconPath = r"icons/frog_art/icon.png", header = "Frog", body = ["Hello, I'm Frog."
-                                                                                 "Blah",
-                                                                                 "Blahb",
-                "Ribidi Toilet..."])
+d1 = dialogueBox(
+    iconPath = r"icons/frog_art/icon.png",
+    header = "Frog", 
+    body = ["Hello, I'm Frog.",
+            "Blah",
+            "Blahb",
+            "Ribidi Toilet..."])
 
-d2 = dialogueBox(iconPath = r"icons/frog_art/icon.png", header = "Frog", body = ["BLAH BLAH BLAH",
-                  "Bye now!"], isRepeatable = True)
-''
+d2 = dialogueBox(
+    iconPath = r"icons/frog_art/icon.png", 
+    header = "Frog", 
+    body = ["BLAH BLAH BLAH",
+            "Bye now!"],
+    isRepeatable = True)
+
 p1.addDialogue(d1)
 p1.addDialogue(d2)
 

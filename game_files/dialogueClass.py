@@ -44,7 +44,7 @@ class dialogueBox:
 
     def hasMoreLines(self):
 
-        if (len(self.body) == self.bodyCount):
+        if (len(self.body) == self.bodyCount + 1):
 
             return False
         
