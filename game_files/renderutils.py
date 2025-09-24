@@ -1,6 +1,8 @@
 import pygame
 from pygame.locals import *
 
+# TODO: source window size from user and auto fullscreen
+
 windowSize = (1920, 1080)
 
 def renderBackground(SCREEN, background, pos = (0, 0)):

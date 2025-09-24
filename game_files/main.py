@@ -72,7 +72,8 @@ p2 = entity("Frog2",
 
 game.addPlayer(p0)
 game.addEntity(p1)
-game.addEntityWithMap(entity = p2, map = "2fort")
+game.addEntityWithMap(entity = p2, 
+                      map = "2fort")
 
 mult1, mult2, mult3 = 1/3, 2/3, 1/2
 
@@ -97,9 +98,7 @@ d2 = dialogueBox(
     iconPath = r"icons/frog_art/icon.png", 
     header = "Frog", 
     body = ["BLAH BLAH BLAH",
-            "Bye now!"],
-    #isRepeatable = True)
-)
+            "Bye now!"])
 
 p1.addDialogue(d1)
 p1.addDialogue(d2)
@@ -113,7 +112,7 @@ while game.running:
 
     for event in pygame.event.get():
 
-        if event.type == QUIT:
+        if event.type == QUIT or keys_pressed[K_ESCAPE]:
         
             game.quit()
 
