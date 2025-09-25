@@ -1,13 +1,12 @@
+from settings import WINDOWx, WINDOWy, WINDOWSIZE
+from settings import DEFAULT_CHARACTER_IMG, DEFAULT_PORTAL_IMG
 import pygame
 import random
 import os, sys
 import time
 from pygame.locals import *
-from renderutils import getWindowSize
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
-width, height = getWindowSize()
-windowSize = width, height
 
 
 from renderutils import *
@@ -17,53 +16,54 @@ from entityClass import *
 from gameClass import *
 from mapClass import *
 from dialogueClass import *
+from mainMenuClass import *
 
 game = game(name = "game", 
             caption = "Frogburg", 
-            size = windowSize, 
+            size = WINDOWSIZE, 
             FPS = 60, 
             background = r"icons/tempBack.png",
             iconPath = r"icons/frog_art/icon.png")
 
 game.createMap(name = "2fort", 
-               size = windowSize, 
+               size = WINDOWSIZE, 
                block_size = (10, 10), 
                background = r"icons/sball.png",
                portals = [portal("port",
                                  "default_map", 
                                  "icons/default_map.png", 
-                                 (width * 2/3, height * 8/9)), 
+                                 (WINDOWx * 2/3, WINDOWy * 8/9)), 
                           portal("port", 
                                  "beach", 
-                                 DEFAULT_PORTAL, 
-                                 (width * 1/3, height * 8/9))])
+                                 DEFAULT_PORTAL_IMG, 
+                                 (WINDOWx * 1/3, WINDOWy * 8/9))])
                                  
 game.maps["2fort"].setBackground(r"icons/2fort.png")
 
 game.createPortal("2fort_portal", 
                   "2fort", 
                   "icons/2fort.png", 
-                  (width * 2/3, height / 3/5))
+                  (WINDOWx * 2/3, WINDOWy / 3/5))
 
 
 
 p0 = entity("Frog", 
             r"icons/frog_art",
-            (width / 4, height / 4), 
+            (WINDOWx / 4, WINDOWy / 4), 
             False, 
             "player", 
             (110, 110))
 
 p1 = entity("Frog2", 
             r"icons/frog_art",
-            (width / 2, height / 2), 
+            (WINDOWx / 2, WINDOWy / 2), 
             False, 
             "player", 
             (110, 110))
 
 p2 = entity("Frog2", 
             r"icons/frog_art",
-            (width / 2, height / 2), 
+            (WINDOWx / 2, WINDOWy / 2), 
             False, 
             "player", 
             (110, 110))
@@ -73,12 +73,10 @@ game.addPlayer(p0)
 game.addEntity(p1)
 game.addEntityWithMap(entity = p2, 
                       map = "2fort")
-
-mult1, mult2, mult3 = 1/3, 2/3, 1/2
-
+                      
 game.addEntity(entity("Frog2", 
                       r"icons/frog_art",
-                      (width * 1/3, height * 1/2), 
+                      (WINDOWx * 1/3, WINDOWy * 1/2), 
                       False, 
                       "player", 
                       (110, 110)))
@@ -103,39 +101,46 @@ p1.addDialogue(d1)
 p1.addDialogue(d2)
 p2.addDialogue(d2)
 
-while game.running:
+while True:
 
+    if (game.mainMenu.isActive):
+
+        game.menuLoop()
+
+    if (game.running == False):
+
+        break
+
+    game.refreshKeyPresses()
+    game.checkForQuitInput()
     speed = game.player.speedUnit
-    keys_pressed = pygame.key.get_pressed()
-
-    for event in pygame.event.get():
-
-        if event.type == QUIT or keys_pressed[K_ESCAPE]:
-        
-            game.quit()
 
     if (game.player.canMove):
             
-        if (keys_pressed[K_LSHIFT]):
+        if (game.keys_pressed[K_m]):
+            
+            game.mainMenu.isActive = True
+
+        if (game.keys_pressed[K_LSHIFT]):
     
             speed *= 2
 
-        if keys_pressed[K_s]:
+        if game.keys_pressed[K_s]:
     
             game.player.rect.y += speed
             game.player.setDirection(0)
 
-        elif keys_pressed[K_w]:
+        elif game.keys_pressed[K_w]:
     
             game.player.rect.y -= speed
             game.player.setDirection(1)
 
-        if keys_pressed[K_a]:
+        if game.keys_pressed[K_a]:
     
             game.player.rect.x -= speed
             game.player.setDirection(2)
 
-        elif keys_pressed[K_d]:
+        elif game.keys_pressed[K_d]:
     
             game.player.rect.x += speed
             game.player.setDirection(3)        
@@ -143,11 +148,9 @@ while game.running:
         
     game.player.boundsCheck((game.width, game.height))
     
-    game.playerDraw()
-    game.renderMap()
-
     game.render()
-    game.playerCollisionProcesses(keys_pressed)
+
+    game.playerCollisionProcesses(game.keys_pressed)
 
     game.collisionCorrection()
 

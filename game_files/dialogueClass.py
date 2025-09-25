@@ -1,21 +1,10 @@
+from settings import HEADER_FONT, BODY_FONT, SUBTEXT_FONT
+from settings import WINDOWx, WINDOWy, WINDOWSIZE
+from settings import DEFAULT_BOXSIZE, DEFAULT_POS, DEFAULT_ICONPATH
 import pygame
-from renderutils import BLACK, WHITE, getWindowSize, loadImage
+from renderutils import BLACK, WHITE, loadImage
 from imageutils import redimensionImage
 from gameClass import *
-
-pygame.font.init()
-
-HEADER_FONT = pygame.font.Font(None, 30)
-BODY_FONT = pygame.font.Font(None, 38)
-SUBTEXT_FONT = pygame.font.Font(None, 18)
-
-SUBTEXT_FONT.set_italic(True)
-
-windowX, windowY = getWindowSize()
-
-DEFAULT_BOXSIZE = (windowX * 1/2, windowY * 1/4)
-DEFAULT_POS = (windowX * 1/4, windowY * 3/5)
-DEFAULT_ICONPATH = r"icons/sball.png"
 
 class dialogueBox:
 

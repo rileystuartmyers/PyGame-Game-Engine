@@ -1,12 +1,13 @@
+from settings import DEFAULT_BACKGROUND, DEFAULT_TEXTURE, DEFAULT_MENUBACKGROUND
+from settings import DEFAULT_CHARACTER_IMG
 import pygame
 from entityClass import *
 from mapClass import *
 from dialogueClass import dialogueBox
-
-DEFAULT_BACKGROUND = r"icons/default_map.png"
-DEFAULT_TEXTURE = r"icons/brick.png"
+from mainMenuClass import *
 
 DEFAULT_DIALOGUE = dialogueBox()
+
 
 class game:
 
@@ -40,6 +41,10 @@ class game:
         self.activemap.setBackground(background)
         self.activemap.addTexture(texture)
 
+        self.mainMenu = mainMenu(SCREEN = self.SCREEN)
+
+        self.keys_pressed = pygame.key.get_pressed()
+
         if (iconPath):
 
             icon = pygame.image.load(iconPath)
@@ -61,11 +66,11 @@ class game:
         
         self.player = player
 
-    def createEntity(self, name = "char", image = DEFAULT_IMG, spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = (60, 60), speedUnit = 3, randValues = [1, 16]):
+    def createEntity(self, name = "char", image = DEFAULT_CHARACTER_IMG, spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = (60, 60), speedUnit = 3, randValues = [1, 16]):
 
         self.activemap.entities.append(entity(name, image, spawnCoords, isEnemy, entityType, dims, speedUnit, randValues))
 
-    def createEntityWithMap(self, name = "char", map = "default_map", image = DEFAULT_IMG, spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = (60, 60), speedUnit = 3, randValues = [1, 16]):
+    def createEntityWithMap(self, name = "char", map = "default_map", image = DEFAULT_CHARACTER_IMG, spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = (60, 60), speedUnit = 3, randValues = [1, 16]):
 
         self.maps[map].entities.append(entity(name, image, spawnCoords, isEnemy, entityType, dims, speedUnit, randValues))
     
@@ -113,13 +118,9 @@ class game:
         self.player.boundsCheck(bounds)
 
 
-    def playerDraw(self, SCREEN = None, color = (0, 0, 0), width = 0):
+    def playerDraw(self, color = (0, 0, 0), width = 0):
 
-        if (SCREEN == None):
-
-            SCREEN = self.SCREEN
-
-        self.player.draw(SCREEN, color, width)
+        self.player.draw(self.SCREEN, color, width)
     
     def enemyPlayerCollision(self):
 
@@ -258,6 +259,9 @@ class game:
 
     def render(self):
 
+        self.playerDraw()
+        self.activemap.renderMap(self.SCREEN)
+
         for entity in self.activemap.entities:
 
             self.SCREEN.blit(entity.image, entity.rect)
@@ -305,6 +309,38 @@ class game:
     def fpsTick(self):
 
         self.fpsClock.tick(self.FPS)
+
+    def checkForQuitInput(self):
+
+        for event in pygame.event.get():
+
+            if (event.type == QUIT or self.keys_pressed[K_ESCAPE]):
+
+                self.quit()
+
+    def refreshKeyPresses(self):
+
+        self.keys_pressed = pygame.key.get_pressed()
+
+    def menuLoop(self):
+
+        while (self.mainMenu.isActive):
+
+            if (self.running == False):
+
+                break
+
+            if (self.keys_pressed[K_n]):
+
+                self.mainMenu.isActive = False
+
+            self.refreshKeyPresses()
+            self.checkForQuitInput()
+
+            self.mainMenu.render()
+
+            pygame.display.update()
+            self.fpsTick()
 
     def quit(self):
 

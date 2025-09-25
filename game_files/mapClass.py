@@ -1,17 +1,16 @@
+from settings import DEFAULT_TEXTURE
 import pygame
 import numpy as np
 import math
 import os
 from imageutils import redimensionImage
 
-DEFAULT_TEXTURE = r"icons/brick.png"
-
 class map:
 
     def __init__ (self, name, size, block_size = (10, 10), textures = [], entities = [], portals = []):
 
         self.name = name
-        self.width, self.height = block_size
+        self.blockWidth, self.blockHeight = block_size
         self.res_width, self.res_height = size
         self.textures = textures
         self.entities = entities
@@ -30,21 +29,20 @@ class map:
         #self.background = pygame.image.load(f"icons/{self.name}.png")
         
         img = pygame.image.load(f"icons/{self.name}.png")
-        print(img.get_width())
-        print(img.get_height())
+
 
         self.background = pygame.image.load(f"icons/{self.name}.png")
         
     def createCustomMap(self, SCREEN):
         
-        for y in range(self.width):
+        for y in range(self.blockWidth):
 
-            for x in range(self.height):
+            for x in range(self.blockHeight):
 
                 ind = self.grid[y, x]
                 texture = self.textures[ind]
 
-                SCREEN.blit(texture, (math.floor(self.res_width * (y / self.width)), math.floor(self.res_height * (x / self.height))))
+                SCREEN.blit(texture, (math.floor(self.res_width * (y / self.blockWidth)), math.floor(self.res_height * (x / self.blockHeight))))
 
         self.saveMap(SCREEN)
 
@@ -66,7 +64,7 @@ class map:
     def addTexture(self, path):
 
         img = pygame.image.load(path)
-        img = redimensionImage(img, round(self.res_width / self.width), round(self.res_height / self.height))
+        img = redimensionImage(img, round(self.res_width / self.blockWidth), round(self.res_height / self.blockHeight))
 
         self.textures.append(img)
 

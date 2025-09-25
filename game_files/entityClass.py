@@ -1,10 +1,9 @@
+from settings import DEFAULT_CHARACTER_IMG, DEFAULT_PORTAL_IMG
 import pygame
 import os
 from pygame.locals import *
 from imageutils import redimensionImage
 
-DEFAULT_IMG = r"icons/sball.png"
-DEFAULT_PORTAL = r"icons/portal.png"
 
 class entity:
 
@@ -27,7 +26,7 @@ class entity:
 
         else:
 
-            self.image = redimensionImage(pygame.image.load(DEFAULT_IMG), dims[0], dims[1])
+            self.image = redimensionImage(pygame.image.load(DEFAULT_CHARACTER_IMG), dims[0], dims[1])
 
         self.name = name
         self.entityType = entityType
@@ -182,7 +181,7 @@ class portal (entity):
 
         if (imagePath == ""):
 
-            self.image = redimensionImage(pygame.image.load(DEFAULT_IMG), dims[0], dims[1])
+            self.image = redimensionImage(pygame.image.load(DEFAULT_PORTAL_IMG), dims[0], dims[1])
 
         else:
 
