@@ -4,10 +4,12 @@ import os, sys
 import time
 from pygame.locals import *
 
-from renderutils import windowSize
+from renderutils import getWindowSize
 
-width, height = windowSize
 os.environ['SDL_VIDEO_CENTERED'] = '1'
+width, height = getWindowSize()
+windowSize = width, height
+
 
 from renderutils import *
 from imageutils import *
@@ -104,7 +106,6 @@ p1.addDialogue(d1)
 p1.addDialogue(d2)
 p2.addDialogue(d2)
 
-
 while game.running:
 
     speed = game.player.speedUnit
@@ -159,5 +160,6 @@ while game.running:
 
     pygame.display.update()
     game.fpsTick()
+
 
 pygame.quit()

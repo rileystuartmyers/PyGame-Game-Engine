@@ -1,9 +1,17 @@
 import pygame
 from pygame.locals import *
+from screeninfo import get_monitors
 
-# TODO: source window size from user and auto fullscreen
+def getWindowSize():
 
-windowSize = (1920, 1080)
+    for monitor in get_monitors():
+
+        if (monitor.is_primary == True):
+
+            return (monitor.width, monitor.height)
+
+    return (1920, 1080)
+    
 
 def renderBackground(SCREEN, background, pos = (0, 0)):
 

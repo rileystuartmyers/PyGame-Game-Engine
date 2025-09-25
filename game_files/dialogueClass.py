@@ -1,5 +1,5 @@
 import pygame
-from renderutils import BLACK, WHITE, windowSize, loadImage
+from renderutils import BLACK, WHITE, getWindowSize, loadImage
 from imageutils import redimensionImage
 from gameClass import *
 
@@ -11,7 +11,7 @@ SUBTEXT_FONT = pygame.font.Font(None, 18)
 
 SUBTEXT_FONT.set_italic(True)
 
-windowX, windowY = windowSize
+windowX, windowY = getWindowSize()
 
 DEFAULT_BOXSIZE = (windowX * 1/2, windowY * 1/4)
 DEFAULT_POS = (windowX * 1/4, windowY * 3/5)
