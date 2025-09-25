@@ -47,6 +47,8 @@ class game:
 
         pygame.display.set_caption(self.caption)
 
+        self.init()
+
     def init(self):
 
         pygame.init()

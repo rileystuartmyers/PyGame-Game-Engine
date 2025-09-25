@@ -3,7 +3,6 @@ import random
 import os, sys
 import time
 from pygame.locals import *
-
 from renderutils import getWindowSize
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -25,8 +24,6 @@ game = game(name = "game",
             FPS = 60, 
             background = r"icons/tempBack.png",
             iconPath = r"icons/frog_art/icon.png")
-
-game.init()
 
 game.createMap(name = "2fort", 
                size = windowSize, 
