@@ -15,6 +15,10 @@ class mainMenu (map):
         self.SCREEN = SCREEN
         self.isActive = True
 
+        self.newgame_icon = pygame.image.load().convert_alpha()
+        self.continuegame_icon = pygame.image.load().convert_alpha()
+        self.options_icon = pygame.image.load().convert_alpha()
+        
         self.setBackground(DEFAULT_MENUBACKGROUND)
 
     def render(self):
