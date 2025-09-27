@@ -17,8 +17,7 @@ class game:
                 
         self.maps = {"default_map" : map("default_map", size, (10, 10))}
         self.activemap = self.maps["default_map"]
-
-        self.transitionmap = None
+        self.transitionmap = self.maps["default_map"]
 
         self.name = name
         self.caption = caption
@@ -213,27 +212,27 @@ class game:
 
             if (colliding):
 
-                ObjectTopPlayerBottomDifference = abs(self.player.rect.bottom - obj.rect.top)
-                ObjectBottomPlayerTopDifference = abs(self.player.rect.top - obj.rect.bottom)
-                ObjectLeftPlayerRightDifference = abs(self.player.rect.right - obj.rect.left)
-                ObjectRightPlayerLeftDifference = abs(self.player.rect.left - obj.rect.right)
+                ObjectTopPlayerBottomDistance = abs(self.player.rect.bottom - obj.rect.top)
+                ObjectBottomPlayerTopDistance = abs(self.player.rect.top - obj.rect.bottom)
+                ObjectLeftPlayerRightDistance = abs(self.player.rect.right - obj.rect.left)
+                ObjectRightPlayerLeftDistance = abs(self.player.rect.left - obj.rect.right)
 
-                objectPlayerFaceDifferences = [ObjectTopPlayerBottomDifference,
-                                               ObjectBottomPlayerTopDifference,
-                                               ObjectLeftPlayerRightDifference,
-                                               ObjectRightPlayerLeftDifference]
+                ObjectPlayerFaceDistances = [ObjectTopPlayerBottomDistance,
+                                               ObjectBottomPlayerTopDistance,
+                                               ObjectLeftPlayerRightDistance,
+                                               ObjectRightPlayerLeftDistance]
                 
-                objectPlayerFaceDifferencesMin = min(objectPlayerFaceDifferences)
+                ObjectPlayerFaceDistancesMin = min(ObjectPlayerFaceDistances)
 
-                if (objectPlayerFaceDifferencesMin == ObjectTopPlayerBottomDifference):
+                if (ObjectPlayerFaceDistancesMin == ObjectTopPlayerBottomDistance):
 
                     self.player.rect.bottom = obj.rect.top + offset
 
-                elif (objectPlayerFaceDifferencesMin == ObjectBottomPlayerTopDifference):
+                elif (ObjectPlayerFaceDistancesMin == ObjectBottomPlayerTopDistance):
 
                     self.player.rect.top = obj.rect.bottom - offset
 
-                elif (objectPlayerFaceDifferencesMin == ObjectLeftPlayerRightDifference):
+                elif (ObjectPlayerFaceDistancesMin == ObjectLeftPlayerRightDistance):
 
                     self.player.rect.right = obj.rect.left + offset
 
@@ -277,7 +276,23 @@ class game:
             self.renderFadeScreen()
 
 
-    def renderFadeScreen(self):
+    def renderMenu(self):
+
+        self.mainMenu.renderMap(SCREEN = self.SCREEN)
+        
+        self.SCREEN.blit(self.mainMenu.playbutton_icon, self.mainMenu.playbutton_rect)
+        self.SCREEN.blit(self.mainMenu.settingsbutton_icon, self.mainMenu.settingsbutton_rect)
+
+        if (self.isFading):
+
+            self.renderFadeScreen(fadeIncrement = 1)
+
+
+    def renderFadeScreen(self, fadeIncrement = None):
+        
+        if (fadeIncrement == None):
+            
+            fadeIncrement = self.fadeIncrement
 
         MAX_ALPHA = 254
 
@@ -297,13 +312,15 @@ class game:
             
             return
         
-        self.fadeAlpha += self.fadeIncrement
+        self.fadeAlpha += fadeIncrement
         self.SCREEN.blit(self.fadeScreen, (0, 0))
 
-        if ( (self.fadeAlpha // self.fadeIncrement) == (MAX_ALPHA // self.fadeIncrement) ) and (self.transitionmap != None):
+        if ( (self.fadeAlpha // fadeIncrement) == (MAX_ALPHA // fadeIncrement) ) and (self.transitionmap != None):
 
             self.activemap = self.transitionmap
             self.transitionmap = None
+
+            self.mainMenu.isActive = False
 
 
     def fpsTick(self):
@@ -330,14 +347,11 @@ class game:
 
                 break
 
-            if (self.keys_pressed[K_n]):
-
-                self.mainMenu.isActive = False
-
             self.refreshKeyPresses()
+            self.mainMenu.checkForMenuButtonClicks(self)
             self.checkForQuitInput()
 
-            self.mainMenu.render()
+            self.renderMenu()
 
             pygame.display.update()
             self.fpsTick()

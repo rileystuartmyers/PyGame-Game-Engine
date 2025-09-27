@@ -103,13 +103,14 @@ p2.addDialogue(d2)
 
 while True:
 
-    if (game.mainMenu.isActive):
+    if (game.running == False):
+        break
 
+    if (game.mainMenu.isActive):
         game.menuLoop()
 
-    if (game.running == False):
-
-        break
+    if (game.keys_pressed[K_m]):
+        game.mainMenu.isActive = True
 
     game.refreshKeyPresses()
     game.checkForQuitInput()
@@ -117,10 +118,6 @@ while True:
 
     if (game.player.canMove):
             
-        if (game.keys_pressed[K_m]):
-            
-            game.mainMenu.isActive = True
-
         if (game.keys_pressed[K_LSHIFT]):
     
             speed *= 2
@@ -143,7 +140,7 @@ while True:
         elif game.keys_pressed[K_d]:
     
             game.player.rect.x += speed
-            game.player.setDirection(3)        
+            game.player.setDirection(3)
 
         
     game.player.boundsCheck((game.width, game.height))

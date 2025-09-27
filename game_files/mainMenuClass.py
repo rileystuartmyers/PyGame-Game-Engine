@@ -13,20 +13,52 @@ class mainMenu (map):
 
         map.__init__(self, name = "menu", size = WINDOWSIZE)
     
-
         self.SCREEN = SCREEN
         self.isActive = True
 
-        self.playbutton_icon = pygame.image.load(DEFAULT_PLAYBUTTON_IMG).convert_alpha()
-        self.playbutton_icon = redimensionImage(self.playbutton_icon, 180, 100)
+        self.playbutton_width = 350
+        self.playbutton_height = 100
+        self.settingsbutton_width = 100
+        self.settingsbutton_height = 100
 
-        self.settings_icon = pygame.image.load(DEFAULT_SETTINGSBUTTON_IMG).convert_alpha()
-        self.settings_icon = redimensionImage(self.settings_icon, 100, 100)
-
+        self.playbutton_icon = redimensionImage(
+            image = pygame.image.load(DEFAULT_PLAYBUTTON_IMG).convert_alpha(), 
+            dimX = self.playbutton_width, 
+            dimY = self.playbutton_height)
+        self.settingsbutton_icon = redimensionImage(
+            image = pygame.image.load(DEFAULT_SETTINGSBUTTON_IMG).convert_alpha(), 
+            dimX = self.settingsbutton_width, 
+            dimY = self.settingsbutton_height)
+        
+        self.playbutton_rect = pygame.Rect(
+            (self.res_width - self.playbutton_width) / 2, 
+            (self.res_height - self.playbutton_height) / 2,
+            self.playbutton_width,
+            self.playbutton_height)
+        self.settingsbutton_rect = pygame.Rect(
+            (self.res_width * 16/17) - self.settingsbutton_width,
+            (self.res_height * 16/17) - self.settingsbutton_height,
+            self.settingsbutton_width,
+            self.settingsbutton_height)
+        
         self.setBackground(DEFAULT_MENUBACKGROUND)
 
-    def render(self):
+    def checkForMenuButtonClicks(self, gameInstance):
 
-        self.renderMap(SCREEN = self.SCREEN)
+        hasLeftClicked = pygame.mouse.get_pressed()[0]
+        mousePos = pygame.mouse.get_pos()
+
+        if (not hasLeftClicked):
+
+            return
         
-        self.SCREEN.blit(self.settings_icon, pygame.rect.Rect(self.res_width - 150, self.res_height - 150, 100, 100))
+        elif (self.playbutton_rect.collidepoint(mousePos)):
+
+            #self.isActive = False
+            gameInstance.isFading = True
+
+        elif (self.settingsbutton_rect.collidepoint(mousePos)):
+
+            print("Settings screen would pop up now!")
+
+        
