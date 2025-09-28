@@ -1,4 +1,4 @@
-from settings import DEFAULT_BACKGROUND, DEFAULT_TEXTURE, DEFAULT_MENUBACKGROUND
+from settings import DEFAULT_BACKGROUND, DEFAULT_TEXTURE, DEFAULT_MENUBACKGROUND, DEFAULT_MUSIC
 from settings import DEFAULT_CHARACTER_IMG
 import pygame
 from entityClass import *
@@ -15,9 +15,12 @@ class game:
 
         self.running = True
                 
-        self.maps = {"default_map" : map("default_map", size, (10, 10))}
+        self.maps = {"default_map" : map(name = "default_map", 
+                                         size = size,
+                                          block_size = (10, 10))}
         self.activemap = self.maps["default_map"]
         self.transitionmap = self.maps["default_map"]
+        self.currentMusic = self.activemap.music
 
         self.name = name
         self.caption = caption
@@ -89,9 +92,9 @@ class game:
 
         self.activemap.portals.append(portal)
 
-    def createMap(self, name, size, block_size = (10, 10), textures = [], entities = [], portals = [], background = None):
+    def createMap(self, name, size, musicPath = DEFAULT_MUSIC, block_size = (10, 10), textures = [], entities = [], portals = [], background = None):
 
-        self.maps[name] = map(name, size, block_size, textures, entities, portals)
+        self.maps[name] = map(name, size, musicPath, block_size, textures, entities, portals)
 
         if (background):
 
@@ -201,6 +204,7 @@ class game:
 
                     self.transitionmap = self.maps[portal.destination]
 
+                
 
     def collisionCorrection(self, offset = 3):
 
@@ -317,9 +321,16 @@ class game:
 
         if ( (self.fadeAlpha // fadeIncrement) == (MAX_ALPHA // fadeIncrement) ) and (self.transitionmap != None):
 
+            if (self.activemap.musicPath != self.transitionmap.musicPath):
+                
+                self.currentMusic = self.transitionmap.music
+                self.activemap.musicPath = self.transitionmap.musicPath
+
+                pygame.mixer.fadeout(600)
+                pygame.mixer.Sound.play(self.currentMusic, loops = -1)
+
             self.activemap = self.transitionmap
             self.transitionmap = None
-
             self.mainMenu.isActive = False
 
 
@@ -345,7 +356,11 @@ class game:
 
             if (self.running == False):
 
+                pygame.mixer.stop()
+                self.currentMusic.play()
+
                 break
+
 
             self.refreshKeyPresses()
             self.mainMenu.checkForMenuButtonClicks(self)
@@ -356,9 +371,15 @@ class game:
             pygame.display.update()
             self.fpsTick()
 
+            if (self.mainMenu.isActive == False):
+
+                pygame.mixer.fadeout(100)
+                self.currentMusic.play()
+
     def quit(self):
 
         self.running = False
+        pygame.mixer.quit()
 
     def __str__ (self):
 

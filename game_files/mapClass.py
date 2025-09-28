@@ -1,4 +1,4 @@
-from settings import DEFAULT_TEXTURE
+from settings import DEFAULT_TEXTURE, DEFAULT_MUSIC
 import pygame
 import numpy as np
 import math
@@ -7,7 +7,7 @@ from imageutils import redimensionImage
 
 class map:
 
-    def __init__ (self, name, size, block_size = (10, 10), textures = [], entities = [], portals = []):
+    def __init__ (self, name, size, musicPath = DEFAULT_MUSIC, block_size = (10, 10), textures = [], entities = [], portals = []):
 
         self.name = name
         self.blockWidth, self.blockHeight = block_size
@@ -16,6 +16,8 @@ class map:
         self.entities = entities
         self.portals = portals
         self.background = None
+        self.musicPath = musicPath 
+        self.music = pygame.mixer.Sound(file = self.musicPath)
 
         if (len(self.textures) == 0):
 
@@ -26,12 +28,9 @@ class map:
     def saveMap(self, SCREEN):
 
         pygame.image.save(SCREEN, f"icons/{self.name}.png")
-        #self.background = pygame.image.load(f"icons/{self.name}.png")
-        
+
         img = pygame.image.load(f"icons/{self.name}.png")
-
-
-        self.background = pygame.image.load(f"icons/{self.name}.png")
+        self.background = pygame.image.load(img)
         
     def createCustomMap(self, SCREEN):
         

@@ -27,6 +27,7 @@ game = game(name = "game",
 
 game.createMap(name = "2fort", 
                size = WINDOWSIZE, 
+               musicPath = r"sound/mainmenu_sound/wav.wav",
                block_size = (10, 10), 
                background = r"icons/sball.png",
                portals = [portal("port",
@@ -101,12 +102,17 @@ p1.addDialogue(d1)
 p1.addDialogue(d2)
 p2.addDialogue(d2)
 
+game.currentMusic.play(loops = -1)
 while True:
 
     if (game.running == False):
         break
 
     if (game.mainMenu.isActive):
+
+        pygame.mixer.stop()
+        game.mainMenu.playMenuMusic()
+        
         game.menuLoop()
 
     if (game.keys_pressed[K_m]):

@@ -1,6 +1,7 @@
 from settings import DEFAULT_TEXTURE, DEFAULT_MENUBACKGROUND
 from settings import WINDOWx, WINDOWy, WINDOWSIZE
 from settings import DEFAULT_PLAYBUTTON_IMG, DEFAULT_SETTINGSBUTTON_IMG
+from settings import DEFAULT_MENUMUSIC
 from imageutils import redimensionImage
 from renderutils import getWindowSize
 from mapClass import *
@@ -11,7 +12,7 @@ class mainMenu (map):
 
     def __init__(self, SCREEN, background = DEFAULT_MENUBACKGROUND):
 
-        map.__init__(self, name = "menu", size = WINDOWSIZE)
+        map.__init__(self, name = "menu", size = WINDOWSIZE, musicPath = DEFAULT_MENUMUSIC)
     
         self.SCREEN = SCREEN
         self.isActive = True
@@ -54,11 +55,12 @@ class mainMenu (map):
         
         elif (self.playbutton_rect.collidepoint(mousePos)):
 
-            #self.isActive = False
             gameInstance.isFading = True
 
         elif (self.settingsbutton_rect.collidepoint(mousePos)):
 
             print("Settings screen would pop up now!")
 
-        
+    def playMenuMusic(self):
+
+        pygame.mixer.Sound.play(self.music, loops = -1)

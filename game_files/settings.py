@@ -3,7 +3,7 @@
 import pygame
 from renderutils import getWindowSize
 pygame.font.init()
-
+pygame.mixer.init()
 
 
 WINDOWSIZE = getWindowSize()
@@ -22,3 +22,5 @@ DEFAULT_CHARACTER_IMG = r"icons/sball.png"
 DEFAULT_PORTAL_IMG = r"icons/portal.png"
 DEFAULT_PLAYBUTTON_IMG = r"icons/menu_art/playbutton.png"
 DEFAULT_SETTINGSBUTTON_IMG = r"icons/menu_art/settingsbutton.png"
+DEFAULT_MUSIC = r"sound/mainmenu_sound/wav3.wav"
+DEFAULT_MENUMUSIC = r"sound/mainmenu_sound/glee_creep.wav"
