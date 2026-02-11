@@ -1,5 +1,5 @@
 from settings import DEFAULT_BACKGROUND, DEFAULT_TEXTURE, DEFAULT_MENUBACKGROUND, DEFAULT_MUSIC
-from settings import DEFAULT_CHARACTER_IMG
+from settings import DEFAULT_CHARACTER_IMG, DEFAULT_PROJECTILE_IMG
 import pygame
 from entityClass import *
 from mapClass import *
@@ -28,7 +28,7 @@ class game:
         self.width, self.height = size
         self.FPS = FPS
         self.player = entity()
-
+        
         self.fadeScreen = pygame.Surface(size)
         self.fadeScreen.fill((0, 0, 0))
 
@@ -104,21 +104,83 @@ class game:
 
         self.maps[map.name] = map
 
+    def createProjectile(self, name = "projectile", imagePath = "", spawnCoords = (0, 0), direction = 0, isEnemy = True, ownerEntity = None, entityType = "object", dims = [30, 30], speedUnit = 5, randValues = [1, 16]):
+
+        self.activemap.projectiles.append(projectile(name, imagePath, spawnCoords, direction, isEnemy, ownerEntity, entityType, dims, speedUnit, randValues))
+
+    def addProjectile(self, projectile):
+
+        self.activemap.projectiles.append(projectile)
+
     def changeCaption(self, caption):
 
         self.caption = caption
         pygame.display.set_caption(caption)
         
-    def playerMove(self, speed = None, bounds = None):
+    def playerMovement(self):
+            
+        speed = self.player.speedUnit
+        if (self.player.canMove):
+                
+            if (self.keys_pressed[K_LSHIFT]):
+        
+                speed *= 2
 
-        if (bounds == None):
+            if self.keys_pressed[K_s]:
+        
+                self.player.rect.y += speed
+                self.player.setDirection(0)
 
-            bounds = self.width, self.height
+            elif self.keys_pressed[K_w]:
+        
+                self.player.rect.y -= speed
+                self.player.setDirection(1)
 
-        self.player.move()
+            if self.keys_pressed[K_a]:
+        
+                self.player.rect.x -= speed
+                self.player.setDirection(2)
 
-        self.player.boundsCheck(bounds)
+            elif self.keys_pressed[K_d]:
+        
+                self.player.rect.x += speed
+                self.player.setDirection(3)
 
+        self.player.boundsCheck((self.width, self.height))
+
+    def projectileMovement(self):
+
+        print(type(self.activemap.projectiles))
+        for projectile in self.activemap.projectiles:
+
+            speed = projectile.speedUnit
+            direction = projectile.facing
+
+            if (direction == 0):
+
+                projectile.rect.y += speed
+
+            elif (direction == 1):
+
+                projectile.rect.y -= speed
+
+            elif (direction == 2):
+
+                projectile.rect.x -= speed
+                
+            elif (direction == 3):
+
+                projectile.rect.x += speed
+
+            if (projectile.boundsCheck((self.width, self.height))):
+                self.activemap.projectiles.remove(projectile)
+
+            #print(f"x = {projectile.rect.x}, y = {projectile.rect.y}\n")
+
+    def movementProcesses(self):
+
+        self.playerMovement()
+        self.projectileMovement()
 
     def playerDraw(self, color = (0, 0, 0), width = 0):
 
@@ -136,12 +198,21 @@ class game:
 
             return True
     
+    def playerHit(self):
 
+        self.player.health -= 1
             
+        
     def playerCollisionProcesses(self, keys):
 
         offset = 3
         self.portalCollisionCheck()
+
+        for projectile in self.activemap.projectiles:
+
+            if (self.player.rect.colliderect(projectile.rect)):
+
+                self.playerHit()
 
         for entity in self.activemap.entities:
 
@@ -149,8 +220,8 @@ class game:
                 
                 if (entity.isEnemy == True):
 
-                    self.player.health -= 1
-                
+                    self.playerHit()                
+
                 if (len(entity.dialogue) - entity.dialogueCount <= 0):
 
                     return
@@ -245,8 +316,6 @@ class game:
                     self.player.rect.left = obj.rect.right - offset
 
                 return
-            
-
 
     def initiateScreenFade(self):
 
@@ -272,6 +341,10 @@ class game:
         for portal in self.activemap.portals:
 
             self.SCREEN.blit(portal.image, portal.rect)
+
+        for projectile in self.activemap.projectiles:
+
+            self.SCREEN.blit(projectile.image, projectile.rect)
 
         self.SCREEN.blit(self.player.image, self.player.rect)
 

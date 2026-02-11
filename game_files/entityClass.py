@@ -1,4 +1,4 @@
-from settings import DEFAULT_CHARACTER_IMG, DEFAULT_PORTAL_IMG
+from settings import DEFAULT_CHARACTER_IMG, DEFAULT_PORTAL_IMG, DEFAULT_PROJECTILE_IMG
 import pygame
 import os
 from pygame.locals import *
@@ -142,22 +142,13 @@ class entity:
 
         return count
 
-    """
-    def addDialogue(self, header, body, subtext, isRepeatable = False):
+    def addMultiDialogue(self, dialogue):
 
-        if (header == None or header == ""):
+        if (len(self.dialogue) == 0):
+            dialogue[0].body.insert(0, "")
 
-            header = self.name
-
-        if (subtext == None or subtext == ""):
-
-            subtext = "Press 'e' to continue"
-
-        dialogue = dialogueBox(header = header, body = body, subtext = subtext, isRepeatable = isRepeatable)
-        self.dialogue.append(dialogue)
-
-        return
-    """
+        for dial in dialogue:
+            self.dialogue.append(dial)
 
     def addDialogue(self, dialogue):
 
@@ -177,7 +168,7 @@ class entity:
 
 class portal (entity):
 
-    def __init__ (self, name = "port", destination = "", imagePath = "", spawnCoords = (0, 0), isEnemy = False, entityType = "object", dims = [60, 60], speedUnit = 3, randValues = [1, 16]):
+    def __init__ (self, name = "port", destination = "", imagePath = "", spawnCoords = (0, 0), isEnemy = False, entityType = "portal", dims = [60, 60], speedUnit = 3, randValues = [1, 16]):
 
         if (imagePath == ""):
 
@@ -189,10 +180,40 @@ class portal (entity):
 
         self.name = name
         self.destination = destination
-        self.entityType = entityType
         self.isEnemy = isEnemy
+        self.entityType = entityType
         self.speedUnit = speedUnit
         self.randValues = randValues
 
         self.rect = self.image.get_rect()
         self.rect.center = spawnCoords
+
+class projectile (entity):
+
+    def __init__ (self, name = "projectile", imagePath = "", spawnCoords = (0, 0), direction = 0, isEnemy = True, ownerEntity = None, entityType = "object", dims = [30, 30], speedUnit = 5, randValues = [1, 16]):
+
+        if (imagePath == ""):
+            self.image = redimensionImage(pygame.image.load(DEFAULT_PROJECTILE_IMG), dims[0], dims[1])
+        else:
+            self.image = redimensionImage(pygame.image.load(imagePath), dims[0], dims[1])
+
+        self.name = name
+        self.isEnemy = isEnemy
+        self.ownerEntity = ownerEntity
+        self.entityType = entityType
+        self.facing = direction
+        self.speedUnit = speedUnit
+        self.randValues = randValues
+
+        self.rect = self.image.get_rect()
+        self.rect.center = spawnCoords
+
+        def boundsCheck(self, dims):
+
+            width, height = dims
+
+            if (self.rect.left < 2) or (self.rect.right > width - 2) or (self.rect.top < 2) or (self.rect.bottom > height - 2):
+
+                return False
+
+            return True

@@ -15,6 +15,7 @@ class map:
         self.textures = textures
         self.entities = entities
         self.portals = portals
+        self.projectiles = []
         self.background = None
         self.musicPath = musicPath 
         self.music = pygame.mixer.Sound(file = self.musicPath)
